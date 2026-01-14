@@ -33,12 +33,22 @@ export default function Home() {
 
   // Dynamic background color based on scroll position
   const [activeColor, setActiveColor] = useState("rgba(6,182,212,0.1)"); // Default Teal
+  const [activeImage, setActiveImage] = useState("/images/nexus_govern_3d.png");
   
   useMotionValueEvent(featureScrollProgress, "change", (latest) => {
-    if (latest < 0.25) setActiveColor("rgba(6,182,212,0.1)"); // Teal (Govern)
-    else if (latest < 0.5) setActiveColor("rgba(168,85,247,0.1)"); // Violet (Guide)
-    else if (latest < 0.75) setActiveColor("rgba(74,222,128,0.1)"); // Green (Validate)
-    else setActiveColor("rgba(96,165,250,0.1)"); // Blue (Measure)
+    if (latest < 0.25) {
+      setActiveColor("rgba(6,182,212,0.1)"); // Teal (Govern)
+      setActiveImage("/images/nexus_govern_3d.png");
+    } else if (latest < 0.5) {
+      setActiveColor("rgba(168,85,247,0.1)"); // Violet (Guide)
+      setActiveImage("/images/nexus_guide_3d.png");
+    } else if (latest < 0.75) {
+      setActiveColor("rgba(74,222,128,0.1)"); // Green (Validate)
+      setActiveImage("/images/nexus_validate_3d.png");
+    } else {
+      setActiveColor("rgba(96,165,250,0.1)"); // Blue (Measure)
+      setActiveImage("/images/nexus_measure_3d.png");
+    }
   });
 
   // Transform for the sticky image - Holographic Zoom Effect
@@ -202,7 +212,7 @@ export default function Home() {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 z-0"></div>
                 <img 
-                  src="/images/nexus_govern_dashboard.png" 
+                  src={activeImage} 
                   alt="Feature Preview" 
                   className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen"
                 />
