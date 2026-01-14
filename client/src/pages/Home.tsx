@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <Layout>
       {/* Immersive Hero Section */}
-      <section ref={targetRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+      <section ref={targetRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-background pt-32 pb-20">
         {/* Dynamic Background */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.15),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
@@ -70,9 +70,10 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-6xl md:text-8xl font-mono font-bold tracking-tighter leading-none mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white via-white/90 to-white/50"
+            className="text-5xl md:text-7xl font-mono font-bold tracking-tighter leading-tight mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white/90 to-white/50"
           >
-            COMMAND<br />THE NEXUS
+            <span className="text-primary text-2xl md:text-3xl block mb-2 font-normal tracking-widest uppercase">nexus /noun/</span>
+            A CONNECTION OR SERIES OF CONNECTIONS LINKING TWO OR MORE THINGS.
           </motion.h1>
           
           <motion.p 
@@ -106,7 +107,7 @@ export default function Home() {
           initial={{ opacity: 0, rotateX: 20, y: 100 }}
           animate={{ opacity: 1, rotateX: 0, y: 0 }}
           transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 perspective-1000"
+          className="relative mt-20 w-full max-w-5xl px-4 perspective-1000 mx-auto"
         >
           <div className="relative rounded-t-xl border-t border-x border-primary/20 bg-card/80 backdrop-blur-xl shadow-[0_-20px_80px_-20px_rgba(6,182,212,0.3)] overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>

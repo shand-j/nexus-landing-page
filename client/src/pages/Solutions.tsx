@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Briefcase, Code2, Stethoscope, Landmark } from "lucide-react";
+import { ArrowRight, Briefcase, Code2, Stethoscope, Landmark, Globe, Activity } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Solutions() {
@@ -28,6 +28,18 @@ export default function Solutions() {
       title: "Legal",
       desc: "Automate contract review and case research with 100% citation accuracy and zero hallucination risk.",
       features: ["Citation Verification", "Document Isolation", "Privilege Logs"]
+    },
+    {
+      icon: Globe,
+      title: "Go-to-Market",
+      desc: "Accelerate campaign launches and content creation while maintaining brand voice and compliance.",
+      features: ["Brand Guardrails", "Content Approval", "Multi-Channel Sync"]
+    },
+    {
+      icon: Activity,
+      title: "Sales",
+      desc: "Empower reps with AI-driven insights and automated follow-ups, ensuring every interaction is on-message.",
+      features: ["Call Analysis", "Deal Intelligence", "Automated Coaching"]
     }
   ];
 
