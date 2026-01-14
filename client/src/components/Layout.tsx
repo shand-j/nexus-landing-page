@@ -8,11 +8,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { name: "Product", href: "#product" },
-    { name: "Solutions", href: "#solutions" },
-    { name: "Enterprise", href: "#enterprise" },
-    { name: "Resources", href: "#resources" },
-    { name: "Pricing", href: "#pricing" },
+    { name: "Product", href: "/product/govern" },
+    { name: "Solutions", href: "/solutions" },
+    { name: "Enterprise", href: "/enterprise" },
+    { name: "Pricing", href: "/pricing" },
   ];
 
   return (
@@ -34,13 +33,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <a 
+              <Link 
                 key={item.name} 
                 href={item.href}
                 className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -64,14 +63,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               <nav className="flex flex-col gap-6 mt-10">
                 {navItems.map((item) => (
-                  <a 
+                  <Link 
                     key={item.name} 
                     href={item.href}
                     className="text-lg font-medium text-foreground hover:text-primary transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
                 <div className="flex flex-col gap-4 mt-4">
                   <Button variant="outline" className="w-full justify-center">
@@ -112,29 +111,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div>
             <h4 className="font-mono font-semibold mb-4">Platform</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">Govern</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Guide</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Validate</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Measure</a></li>
+              <li><Link href="/product/govern" className="hover:text-primary transition-colors">Govern</Link></li>
+              <li><Link href="/product/guide" className="hover:text-primary transition-colors">Guide</Link></li>
+              <li><Link href="/product/validate" className="hover:text-primary transition-colors">Validate</Link></li>
+              <li><Link href="/product/measure" className="hover:text-primary transition-colors">Measure</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-mono font-semibold mb-4">Company</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">About</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Careers</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
+              <li><Link href="/company/about" className="hover:text-primary transition-colors">About</Link></li>
+              <li><Link href="/company/careers" className="hover:text-primary transition-colors">Careers</Link></li>
+              <li><Link href="/company/blog" className="hover:text-primary transition-colors">Blog</Link></li>
+              <li><Link href="/company/contact" className="hover:text-primary transition-colors">Contact</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-mono font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">Privacy</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Terms</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Security</a></li>
+              <li><Link href="/legal/privacy" className="hover:text-primary transition-colors">Privacy</Link></li>
+              <li><Link href="/legal/terms" className="hover:text-primary transition-colors">Terms</Link></li>
+              <li><Link href="/legal/security" className="hover:text-primary transition-colors">Security</Link></li>
             </ul>
           </div>
         </div>

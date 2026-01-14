@@ -168,7 +168,8 @@ export default function Home() {
                 desc: "Full-spectrum visibility. Connect to core systems and LLM logs to visualize every AI interaction across the network.",
                 color: "text-primary",
                 border: "border-primary/20",
-                bg: "bg-primary/5"
+                bg: "bg-primary/5",
+                href: "/product/govern"
               },
               {
                 icon: Shield,
@@ -176,7 +177,8 @@ export default function Home() {
                 desc: "Sanctioned pathways. A centralized, secure workspace for teams to query company data with built-in approval protocols.",
                 color: "text-secondary",
                 border: "border-secondary/20",
-                bg: "bg-secondary/5"
+                bg: "bg-secondary/5",
+                href: "/product/guide"
               },
               {
                 icon: CheckCircle2,
@@ -184,7 +186,8 @@ export default function Home() {
                 desc: "Risk mitigation. Automated routing of low-confidence outputs for expert human review and reinforcement learning.",
                 color: "text-green-400",
                 border: "border-green-400/20",
-                bg: "bg-green-400/5"
+                bg: "bg-green-400/5",
+                href: "/product/validate"
               },
               {
                 icon: BarChart3,
@@ -192,7 +195,8 @@ export default function Home() {
                 desc: "ROI attribution. Precise tracking of AI utility mapped to specific projects, teams, and business outcomes.",
                 color: "text-blue-400",
                 border: "border-blue-400/20",
-                bg: "bg-blue-400/5"
+                bg: "bg-blue-400/5",
+                href: "/product/measure"
               }
             ].map((feature, i) => (
               <motion.div
@@ -202,7 +206,8 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 whileHover={{ scale: 1.02 }}
-                className={`group relative overflow-hidden rounded-none border ${feature.border} ${feature.bg} p-8 transition-all duration-300 hover:bg-accent/50`}
+                className={`group relative overflow-hidden rounded-none border ${feature.border} ${feature.bg} p-8 transition-all duration-300 hover:bg-accent/50 cursor-pointer`}
+                onClick={() => window.location.href = feature.href}
               >
                 <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
                   <feature.icon className="h-32 w-32" />
