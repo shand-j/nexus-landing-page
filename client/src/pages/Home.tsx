@@ -1,8 +1,7 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Shield, BarChart3, CheckCircle2, Network, ArrowRight, Lock, Eye, Zap, Cpu, Activity, Globe } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { Shield, BarChart3, CheckCircle2, Network, ArrowRight } from "lucide-react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 
 export default function Home() {
@@ -12,14 +11,33 @@ export default function Home() {
     offset: ["start start", "end start"]
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, -100]);
+  // Smooth spring physics for scroll effects
+  const smoothScroll = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const opacity = useTransform(smoothScroll, [0, 0.3], [1, 0]);
+  const scale = useTransform(smoothScroll, [0, 0.3], [1, 0.9]);
+  const y = useTransform(smoothScroll, [0, 0.3], [0, -50]);
+  const heroRotateX = useTransform(smoothScroll, [0, 0.3], [0, 15]);
+
+  // Scrollytelling section refs
+  const scrollSectionRef = useRef(null);
+  const { scrollYProgress: featureScrollProgress } = useScroll({
+    target: scrollSectionRef,
+    offset: ["start start", "end end"]
+  });
+
+  // Transform for the sticky image
+  const featureImageY = useTransform(featureScrollProgress, [0, 1], ["0%", "20%"]);
+  const featureImageOpacity = useTransform(featureScrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   return (
     <Layout>
       {/* Immersive Hero Section */}
-      <section ref={targetRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-background pt-32 pb-20">
+      <section ref={targetRef} className="relative min-h-[120vh] flex flex-col items-center justify-start overflow-hidden bg-background pt-32">
         {/* Dynamic Background */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.15),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
@@ -102,12 +120,10 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Hero Dashboard Preview */}
+        {/* Hero Dashboard Preview with Scroll Tilt */}
         <motion.div
-          initial={{ opacity: 0, rotateX: 20, y: 100 }}
-          animate={{ opacity: 1, rotateX: 0, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
-          className="relative mt-20 w-full max-w-5xl px-4 perspective-1000 mx-auto"
+          style={{ rotateX: heroRotateX, opacity, scale }}
+          className="relative mt-20 w-full max-w-6xl px-4 perspective-1000 mx-auto z-20"
         >
           <div className="relative rounded-t-xl border-t border-x border-primary/20 bg-card/80 backdrop-blur-xl shadow-[0_-20px_80px_-20px_rgba(6,182,212,0.3)] overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
@@ -127,7 +143,7 @@ export default function Home() {
       </section>
 
       {/* Stats Ticker */}
-      <div className="border-y border-border/50 bg-accent/30 backdrop-blur-sm overflow-hidden">
+      <div className="border-y border-border/50 bg-accent/30 backdrop-blur-sm overflow-hidden z-30 relative">
         <div className="container flex items-center justify-between py-6">
           <div className="flex gap-20 animate-marquee whitespace-nowrap">
             {[
@@ -150,219 +166,124 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Core Modules Section */}
-      <section id="solutions" className="py-32 relative">
-        <div className="container">
-          <div className="mb-20">
-            <h2 className="text-4xl md:text-5xl font-mono font-bold mb-6">CORE MODULES</h2>
-            <div className="h-1 w-20 bg-primary mb-6"></div>
-            <p className="text-xl text-muted-foreground max-w-2xl">
-              The Nexus architecture is built on four fundamental pillars, designed to provide total control over your enterprise AI ecosystem.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                icon: Network,
-                title: "GOVERN",
-                desc: "Full-spectrum visibility. Connect to core systems and LLM logs to visualize every AI interaction across the network.",
-                color: "text-primary",
-                border: "border-primary/20",
-                bg: "bg-primary/5",
-                href: "/product/govern"
-              },
-              {
-                icon: Shield,
-                title: "GUIDE",
-                desc: "Sanctioned pathways. A centralized, secure workspace for teams to query company data with built-in approval protocols.",
-                color: "text-secondary",
-                border: "border-secondary/20",
-                bg: "bg-secondary/5",
-                href: "/product/guide"
-              },
-              {
-                icon: CheckCircle2,
-                title: "VALIDATE",
-                desc: "Risk mitigation. Automated routing of low-confidence outputs for expert human review and reinforcement learning.",
-                color: "text-green-400",
-                border: "border-green-400/20",
-                bg: "bg-green-400/5",
-                href: "/product/validate"
-              },
-              {
-                icon: BarChart3,
-                title: "MEASURE",
-                desc: "ROI attribution. Precise tracking of AI utility mapped to specific projects, teams, and business outcomes.",
-                color: "text-blue-400",
-                border: "border-blue-400/20",
-                bg: "bg-blue-400/5",
-                href: "/product/measure"
-              }
-            ].map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-                className={`group relative overflow-hidden rounded-none border ${feature.border} ${feature.bg} p-8 transition-all duration-300 hover:bg-accent/50 cursor-pointer`}
-                onClick={() => window.location.href = feature.href}
+      {/* Scrollytelling Core Modules Section */}
+      <section ref={scrollSectionRef} className="relative bg-background">
+        <div className="container relative">
+          <div className="flex flex-col lg:flex-row">
+            {/* Sticky Visual Side */}
+            <div className="hidden lg:flex lg:w-1/2 sticky top-0 h-screen items-center justify-center p-10">
+              <motion.div 
+                style={{ y: featureImageY, opacity: featureImageOpacity }}
+                className="relative w-full aspect-square max-w-lg rounded-2xl overflow-hidden border border-primary/20 bg-card/50 backdrop-blur-xl shadow-2xl"
               >
-                <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
-                  <feature.icon className="h-32 w-32" />
-                </div>
-                <div className="relative z-10">
-                  <div className={`h-12 w-12 flex items-center justify-center mb-6 ${feature.color}`}>
-                    <feature.icon className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-2xl font-mono font-bold mb-4 tracking-tight">{feature.title}</h3>
-                  <p className="text-muted-foreground text-lg leading-relaxed max-w-md">
-                    {feature.desc}
-                  </p>
-                </div>
-                {/* Corner Accents */}
-                <div className="absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Deep Dive: Governance */}
-      <section className="py-32 bg-accent/20 border-y border-border/50 overflow-hidden">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <div className="relative order-2 lg:order-1">
-              <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full opacity-20"></div>
-              <div className="relative rounded-lg border border-primary/30 bg-card/50 backdrop-blur-md p-2 shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 z-0"></div>
                 <img 
-                  src="/images/nexus_social_media_banner.png" 
-                  alt="Governance Visualization" 
-                  className="rounded border border-border/50"
+                  src="/images/nexus_govern_dashboard.png" 
+                  alt="Feature Preview" 
+                  className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen"
                 />
-                {/* Overlay Data Points */}
-                <div className="absolute top-10 right-10 bg-black/80 border border-primary/50 p-4 rounded font-mono text-xs text-primary shadow-lg backdrop-blur-md">
-                  <div>&gt; THREAT DETECTED</div>
-                  <div className="text-white mt-1">Source: External API</div>
-                  <div className="text-red-500 mt-1">Action: BLOCKED</div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="order-1 lg:order-2">
-              <div className="inline-flex items-center gap-2 text-primary font-mono text-sm mb-6">
-                <Lock className="h-4 w-4" />
-                <span>PROTOCOL: SECURITY</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-mono font-bold mb-6">TOTAL VISIBILITY.<br/>ZERO COMPROMISE.</h2>
-              <p className="text-xl text-muted-foreground mb-8">
-                Eliminate shadow AI. Nexus integrates directly with your identity provider and LLM gateways to log, categorize, and audit every prompt and completion in real-time.
-              </p>
-              
-              <div className="space-y-6">
-                {[
-                  { title: "PII Redaction", desc: "Automatic masking of sensitive data before it leaves your perimeter." },
-                  { title: "RBAC Enforcement", desc: "Granular role-based access control for specific models and datasets." },
-                  { title: "Audit Trails", desc: "Immutable logs for compliance with SOC2, GDPR, and ISO standards." }
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0"></div>
-                    <div>
-                      <h4 className="font-mono font-bold text-foreground">{item.title}</h4>
-                      <p className="text-muted-foreground">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Deep Dive: Validation */}
-      <section className="py-32 relative">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 text-secondary font-mono text-sm mb-6">
-                <Eye className="h-4 w-4" />
-                <span>PROTOCOL: ACCURACY</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-mono font-bold mb-6">HUMAN-IN-THE-LOOP<br/>VERIFICATION.</h2>
-              <p className="text-xl text-muted-foreground mb-8">
-                Prevent hallucinations from reaching production. Nexus automatically routes low-confidence outputs to subject matter experts, creating a virtuous cycle of model improvement.
-              </p>
-              
-              <div className="grid grid-cols-2 gap-6 mb-8">
-                <div className="p-6 border border-border bg-accent/10 rounded-none">
-                  <div className="text-3xl font-mono font-bold text-secondary mb-2">99.8%</div>
-                  <div className="text-sm text-muted-foreground">Accuracy Rate</div>
-                </div>
-                <div className="p-6 border border-border bg-accent/10 rounded-none">
-                  <div className="text-3xl font-mono font-bold text-secondary mb-2">&lt; 20ms</div>
-                  <div className="text-sm text-muted-foreground">Routing Latency</div>
-                </div>
-              </div>
-
-              <Button variant="outline" className="border-secondary/50 text-secondary hover:bg-secondary/10 rounded-none h-12 px-6">
-                Explore Validation Workflows
-              </Button>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 bg-secondary/20 blur-[100px] rounded-full opacity-20"></div>
-              <div className="relative mx-auto max-w-sm">
-                <div className="absolute -inset-1 bg-gradient-to-b from-secondary to-primary opacity-30 blur-lg"></div>
-                <img 
-                  src="/images/nexus_mobile_app_mockup.png" 
-                  alt="Validation App" 
-                  className="relative rounded-2xl border border-border shadow-2xl"
-                />
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
                 
-                {/* Floating Approval Card */}
-                <motion.div 
-                  initial={{ x: 50, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                  className="absolute -right-12 top-1/3 bg-card border border-green-500/30 p-4 rounded shadow-xl backdrop-blur-md max-w-[200px]"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle2 className="h-5 w-5 text-green-500" />
-                    <span className="font-mono font-bold text-green-500">APPROVED</span>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Output validated by Senior Engineer. Confidence score updated.
-                  </div>
-                </motion.div>
-              </div>
+                {/* Dynamic Overlay Elements */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 border border-white/10 rounded-lg"></div>
+                <div className="absolute top-10 right-10 h-2 w-2 bg-primary rounded-full animate-ping"></div>
+              </motion.div>
+            </div>
+
+            {/* Scrolling Content Side */}
+            <div className="lg:w-1/2 py-20 lg:py-0">
+              {[
+                {
+                  icon: Network,
+                  title: "GOVERN",
+                  desc: "Full-spectrum visibility. Connect to core systems and LLM logs to visualize every AI interaction across the network.",
+                  color: "text-primary",
+                  href: "/product/govern"
+                },
+                {
+                  icon: Shield,
+                  title: "GUIDE",
+                  desc: "Sanctioned pathways. A centralized, secure workspace for teams to query company data with built-in approval protocols.",
+                  color: "text-secondary",
+                  href: "/product/guide"
+                },
+                {
+                  icon: CheckCircle2,
+                  title: "VALIDATE",
+                  desc: "Risk mitigation. Automated routing of low-confidence outputs for expert human review and reinforcement learning.",
+                  color: "text-green-400",
+                  href: "/product/validate"
+                },
+                {
+                  icon: BarChart3,
+                  title: "MEASURE",
+                  desc: "ROI attribution. Precise tracking of AI utility mapped to specific projects, teams, and business outcomes.",
+                  color: "text-blue-400",
+                  href: "/product/measure"
+                }
+              ].map((feature, i) => (
+                <div key={i} className="min-h-[80vh] flex flex-col justify-center p-8 border-l border-border/20 ml-4 lg:ml-0">
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ margin: "-20% 0px -20% 0px" }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <div className={`h-16 w-16 flex items-center justify-center mb-8 rounded-2xl bg-accent/10 ${feature.color}`}>
+                      <feature.icon className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-5xl md:text-7xl font-mono font-bold mb-8 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">
+                      {feature.title}
+                    </h3>
+                    <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-md mb-8">
+                      {feature.desc}
+                    </p>
+                    <Button 
+                      variant="link" 
+                      className={`p-0 text-lg ${feature.color} hover:opacity-80`}
+                      onClick={() => window.location.href = feature.href}
+                    >
+                      Explore {feature.title} <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </motion.div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-40 relative overflow-hidden flex items-center justify-center">
+      {/* Final CTA Section */}
+      <section className="py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/5"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.1),transparent_70%)]"></div>
-        
-        <div className="container relative z-10 text-center max-w-4xl mx-auto">
-          <h2 className="text-5xl md:text-7xl font-mono font-bold mb-8 tracking-tighter">
-            INITIALIZE<br/>YOUR COMMAND CENTER
-          </h2>
-          <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Join the forward-thinking enterprises using Nexus to turn AI chaos into a strategic advantage.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-16 px-12 text-xl rounded-none border-l-4 border-white/20 shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transition-all duration-300">
-              Start Free Trial
+        <div className="container relative z-10 text-center">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-6xl font-mono font-bold mb-8"
+          >
+            READY TO TAKE COMMAND?
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12"
+          >
+            Join the enterprise leaders who are already governing their AI future with Nexus.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <Button size="lg" className="h-16 px-12 text-xl bg-white text-black hover:bg-white/90 rounded-full">
+              Book a Demo
             </Button>
-            <Button size="lg" variant="outline" className="h-16 px-12 text-xl rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300">
-              Contact Sales
-            </Button>
-          </div>
+          </motion.div>
         </div>
       </section>
     </Layout>
