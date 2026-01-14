@@ -1,8 +1,8 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Shield, BarChart3, CheckCircle2, Network, ArrowRight } from "lucide-react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
+import { useRef, useState } from "react";
 
 export default function Home() {
   const targetRef = useRef(null);
@@ -18,10 +18,11 @@ export default function Home() {
     restDelta: 0.001
   });
 
-  const opacity = useTransform(smoothScroll, [0, 0.3], [1, 0]);
-  const scale = useTransform(smoothScroll, [0, 0.3], [1, 0.9]);
-  const y = useTransform(smoothScroll, [0, 0.3], [0, -50]);
-  const heroRotateX = useTransform(smoothScroll, [0, 0.3], [0, 15]);
+  // "Fly-through" effect: Scale UP and fade out
+  const opacity = useTransform(smoothScroll, [0, 0.4], [1, 0]);
+  const scale = useTransform(smoothScroll, [0, 0.4], [1, 1.5]); // Scale UP
+  const y = useTransform(smoothScroll, [0, 0.4], [0, 100]); // Move DOWN slightly as we fly "over" it
+  const blur = useTransform(smoothScroll, [0, 0.4], ["0px", "10px"]); // Blur as it gets closer
 
   // Scrollytelling section refs
   const scrollSectionRef = useRef(null);
@@ -30,13 +31,24 @@ export default function Home() {
     offset: ["start start", "end end"]
   });
 
-  // Transform for the sticky image
-  const featureImageY = useTransform(featureScrollProgress, [0, 1], ["0%", "20%"]);
-  const featureImageOpacity = useTransform(featureScrollProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  // Dynamic background color based on scroll position
+  const [activeColor, setActiveColor] = useState("rgba(6,182,212,0.1)"); // Default Teal
+  
+  useMotionValueEvent(featureScrollProgress, "change", (latest) => {
+    if (latest < 0.25) setActiveColor("rgba(6,182,212,0.1)"); // Teal (Govern)
+    else if (latest < 0.5) setActiveColor("rgba(168,85,247,0.1)"); // Violet (Guide)
+    else if (latest < 0.75) setActiveColor("rgba(74,222,128,0.1)"); // Green (Validate)
+    else setActiveColor("rgba(96,165,250,0.1)"); // Blue (Measure)
+  });
+
+  // Transform for the sticky image - Holographic Zoom Effect
+  const featureImageScale = useTransform(featureScrollProgress, [0, 0.2, 0.4, 0.6, 0.8, 1], [1, 1.1, 1, 1.1, 1, 1.1]);
+  const featureImageRotate = useTransform(featureScrollProgress, [0, 1], [0, 5]);
+  const featureImageOpacity = useTransform(featureScrollProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
 
   return (
     <Layout>
-      {/* Immersive Hero Section */}
+      {/* Immersive Hero Section with Fly-Through Effect */}
       <section ref={targetRef} className="relative min-h-[120vh] flex flex-col items-center justify-start overflow-hidden bg-background pt-32">
         {/* Dynamic Background */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.15),transparent_50%)]"></div>
@@ -44,10 +56,10 @@ export default function Home() {
         
         {/* Floating Particles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(30)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute bg-primary/30 rounded-full"
+              className="absolute bg-primary/40 rounded-full blur-[1px]"
               style={{
                 width: Math.random() * 4 + 1 + "px",
                 height: Math.random() * 4 + 1 + "px",
@@ -56,10 +68,11 @@ export default function Home() {
               }}
               animate={{
                 y: [0, -100],
-                opacity: [0, 1, 0],
+                opacity: [0, 0.8, 0],
+                scale: [0, 1.5, 0]
               }}
               transition={{
-                duration: Math.random() * 10 + 10,
+                duration: Math.random() * 5 + 5,
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -68,14 +81,14 @@ export default function Home() {
         </div>
 
         <motion.div 
-          style={{ opacity, scale, y }}
-          className="container relative z-10 flex flex-col items-center text-center pt-20"
+          style={{ opacity, scale, y, filter: `blur(${blur})` }}
+          className="container relative z-10 flex flex-col items-center text-center pt-20 origin-center"
         >
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/50 border border-primary/20 text-primary text-sm font-mono mb-8 backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/50 border border-primary/20 text-primary text-sm font-mono mb-8 backdrop-blur-md shadow-[0_0_15px_rgba(6,182,212,0.3)]"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -85,12 +98,12 @@ export default function Home() {
           </motion.div>
           
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-5xl md:text-7xl font-mono font-bold tracking-tighter leading-tight mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white/90 to-white/50"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "circOut" }}
+            className="text-5xl md:text-8xl font-mono font-bold tracking-tighter leading-tight mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white/90 to-white/50 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
           >
-            <span className="text-primary text-2xl md:text-3xl block mb-2 font-normal tracking-widest uppercase">nexus /noun/</span>
+            <span className="text-primary text-2xl md:text-3xl block mb-4 font-normal tracking-[0.2em] uppercase">nexus /noun/</span>
             A CONNECTION OR SERIES OF CONNECTIONS LINKING TWO OR MORE THINGS.
           </motion.h1>
           
@@ -102,7 +115,7 @@ export default function Home() {
           >
             The enterprise-grade operating system for AI adoption.
             <br />
-            <span className="text-primary">Govern. Guide. Validate. Measure.</span>
+            <span className="text-primary font-semibold">Govern. Guide. Validate. Measure.</span>
           </motion.p>
           
           <motion.div 
@@ -111,26 +124,31 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20" onClick={() => window.location.href = "/product/govern"}>
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300" onClick={() => window.location.href = "/product/govern"}>
               Initialize System <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300" onClick={() => window.location.href = "/solutions"}>
+            <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-sm" onClick={() => window.location.href = "/solutions"}>
               View Schematics
             </Button>
           </motion.div>
         </motion.div>
 
-        {/* Hero Dashboard Preview with Scroll Tilt */}
+        {/* Hero Dashboard Preview with Fly-Through Tilt */}
         <motion.div
-          style={{ rotateX: heroRotateX, opacity, scale }}
-          className="relative mt-20 w-full max-w-6xl px-4 perspective-1000 mx-auto z-20"
+          style={{ 
+            rotateX: useTransform(smoothScroll, [0, 0.5], [20, 0]), 
+            scale: useTransform(smoothScroll, [0, 0.5], [0.9, 1.1]),
+            opacity: useTransform(smoothScroll, [0, 0.2], [0, 1]),
+            y: useTransform(smoothScroll, [0, 0.5], [100, 0])
+          }}
+          className="relative mt-20 w-full max-w-7xl px-4 perspective-1000 mx-auto z-20"
         >
-          <div className="relative rounded-t-xl border-t border-x border-primary/20 bg-card/80 backdrop-blur-xl shadow-[0_-20px_80px_-20px_rgba(6,182,212,0.3)] overflow-hidden">
+          <div className="relative rounded-t-xl border-t border-x border-primary/20 bg-card/80 backdrop-blur-xl shadow-[0_-20px_80px_-20px_rgba(6,182,212,0.3)] overflow-hidden group">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
             <img 
               src="/images/nexus_dashboard_mockup.png" 
               alt="Nexus Dashboard" 
-              className="w-full h-auto opacity-90"
+              className="w-full h-auto opacity-90 group-hover:opacity-100 transition-opacity duration-500"
             />
             {/* Scanning Line Effect */}
             <motion.div 
@@ -138,6 +156,8 @@ export default function Home() {
               transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               className="absolute left-0 w-full h-[2px] bg-primary/50 shadow-[0_0_20px_rgba(6,182,212,0.5)] z-20"
             ></motion.div>
+            {/* Grid Overlay */}
+            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none"></div>
           </div>
         </motion.div>
       </section>
@@ -166,15 +186,19 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Scrollytelling Core Modules Section */}
-      <section ref={scrollSectionRef} className="relative bg-background">
+      {/* Dynamic Scrollytelling Core Modules Section */}
+      <section ref={scrollSectionRef} className="relative transition-colors duration-1000" style={{ backgroundColor: activeColor }}>
         <div className="container relative">
           <div className="flex flex-col lg:flex-row">
-            {/* Sticky Visual Side */}
-            <div className="hidden lg:flex lg:w-1/2 sticky top-0 h-screen items-center justify-center p-10">
+            {/* Sticky Visual Side with Holographic Effect */}
+            <div className="hidden lg:flex lg:w-1/2 sticky top-0 h-screen items-center justify-center p-10 perspective-1000">
               <motion.div 
-                style={{ y: featureImageY, opacity: featureImageOpacity }}
-                className="relative w-full aspect-square max-w-lg rounded-2xl overflow-hidden border border-primary/20 bg-card/50 backdrop-blur-xl shadow-2xl"
+                style={{ 
+                  scale: featureImageScale, 
+                  rotateY: featureImageRotate,
+                  opacity: featureImageOpacity 
+                }}
+                className="relative w-full aspect-square max-w-lg rounded-2xl overflow-hidden border border-primary/20 bg-card/50 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.5)]"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 z-0"></div>
                 <img 
@@ -185,8 +209,15 @@ export default function Home() {
                 <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
                 
                 {/* Dynamic Overlay Elements */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 border border-white/10 rounded-lg"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 border border-white/10 rounded-lg shadow-[0_0_30px_rgba(6,182,212,0.2)]"></div>
                 <div className="absolute top-10 right-10 h-2 w-2 bg-primary rounded-full animate-ping"></div>
+                
+                {/* Glitch Overlay */}
+                <motion.div
+                  animate={{ opacity: [0, 0.1, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                  className="absolute inset-0 bg-white mix-blend-overlay pointer-events-none"
+                ></motion.div>
               </motion.div>
             </div>
 
@@ -224,12 +255,12 @@ export default function Home() {
               ].map((feature, i) => (
                 <div key={i} className="min-h-[80vh] flex flex-col justify-center p-8 border-l border-border/20 ml-4 lg:ml-0">
                   <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, x: -50, filter: "blur(10px)" }}
+                    whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                     viewport={{ margin: "-20% 0px -20% 0px" }}
                     transition={{ duration: 0.8 }}
                   >
-                    <div className={`h-16 w-16 flex items-center justify-center mb-8 rounded-2xl bg-accent/10 ${feature.color}`}>
+                    <div className={`h-16 w-16 flex items-center justify-center mb-8 rounded-2xl bg-accent/10 ${feature.color} shadow-[0_0_20px_rgba(255,255,255,0.1)]`}>
                       <feature.icon className="h-8 w-8" />
                     </div>
                     <h3 className="text-5xl md:text-7xl font-mono font-bold mb-8 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">
@@ -240,10 +271,10 @@ export default function Home() {
                     </p>
                     <Button 
                       variant="link" 
-                      className={`p-0 text-lg ${feature.color} hover:opacity-80`}
+                      className={`p-0 text-lg ${feature.color} hover:opacity-80 group`}
                       onClick={() => window.location.href = feature.href}
                     >
-                      Explore {feature.title} <ArrowRight className="ml-2 h-5 w-5" />
+                      Explore {feature.title} <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </motion.div>
                 </div>
@@ -280,7 +311,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            <Button size="lg" className="h-16 px-12 text-xl bg-white text-black hover:bg-white/90 rounded-full">
+            <Button size="lg" className="h-16 px-12 text-xl bg-white text-black hover:bg-white/90 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] transition-all duration-300">
               Book a Demo
             </Button>
           </motion.div>
