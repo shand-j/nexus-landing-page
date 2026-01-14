@@ -93,10 +93,10 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20">
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20" onClick={() => window.location.href = "/product/govern"}>
               Initialize System <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300">
+            <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300" onClick={() => window.location.href = "/solutions"}>
               View Schematics
             </Button>
           </motion.div>
@@ -129,7 +129,7 @@ export default function Home() {
       {/* Stats Ticker */}
       <div className="border-y border-border/50 bg-accent/30 backdrop-blur-sm overflow-hidden">
         <div className="container flex items-center justify-between py-6">
-          <div className="flex gap-12 animate-marquee whitespace-nowrap">
+          <div className="flex gap-20 animate-marquee whitespace-nowrap">
             {[
               { label: "Active Nodes", value: "8,492" },
               { label: "Threats Blocked", value: "142" },
@@ -140,10 +140,10 @@ export default function Home() {
               { label: "Threats Blocked", value: "142" },
               { label: "AI Efficiency", value: "+340%" },
             ].map((stat, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="h-2 w-2 rounded-full bg-secondary animate-pulse"></div>
-                <span className="text-muted-foreground font-mono text-sm uppercase tracking-wider">{stat.label}</span>
-                <span className="text-foreground font-mono font-bold">{stat.value}</span>
+              <div key={i} className="flex items-center gap-4">
+                <div className="h-2 w-2 rounded-full bg-secondary animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>
+                <span className="text-muted-foreground font-mono text-sm uppercase tracking-widest">{stat.label}</span>
+                <span className="text-foreground font-mono font-bold text-lg">{stat.value}</span>
               </div>
             ))}
           </div>

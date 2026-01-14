@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link href="/">
             <div className="flex items-center gap-2 cursor-pointer">
               <img 
-                src="/images/nexus_logo_monogram.png" 
+                src="/nexus_logo_monogram_transparent.png" 
                 alt="Nexus Logo" 
                 className="h-8 w-8 object-contain" 
               />
@@ -97,7 +97,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <img 
-                src="/images/nexus_logo_monogram.png" 
+                src="/nexus_logo_monogram_transparent.png" 
                 alt="Nexus Logo" 
                 className="h-6 w-6 object-contain" 
               />
