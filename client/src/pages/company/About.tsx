@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Users, Target, Globe, Eye, Brain, Zap, LineChart } from "lucide-react";
+import { Users, Target, Eye, Brain, LineChart } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function About() {
