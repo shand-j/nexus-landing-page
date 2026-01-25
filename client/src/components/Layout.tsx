@@ -104,7 +104,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <span className="font-mono text-lg font-bold">NEXUS</span>
             </div>
             <p className="text-sm text-muted-foreground max-w-xs">
-              The command center for enterprise AI adoption. Govern, guide, validate, and measure every interaction.
+              Bridge the GenAI Divide. Scale AI initiatives from pilots to production with measurable ROI. Govern, guide, validate, and measure every interaction.
             </p>
           </div>
           

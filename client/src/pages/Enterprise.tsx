@@ -1,9 +1,32 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Globe, Server, Lock } from "lucide-react";
+import { ArrowRight, ShieldCheck, Globe, Server, Lock, Brain, Zap, LineChart, Users } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Enterprise() {
+  const competitiveAdvantages = [
+    {
+      icon: Brain,
+      title: "Learning-Capable Systems",
+      desc: "Persistent, adaptive AI agents that continuously improve over time—not brittle, one-size-fits-all tools that break at the first edge case."
+    },
+    {
+      icon: Zap,
+      title: "Deep Workflow Integration",
+      desc: "Tailored solutions for process-specific needs. Seamless alignment with existing enterprise software like Salesforce and Microsoft Dynamics."
+    },
+    {
+      icon: LineChart,
+      title: "Proven ROI Metrics",
+      desc: "Built-in dashboards to track productivity gains, cost savings, and operational impact with real-time measurement and attribution."
+    },
+    {
+      icon: Users,
+      title: "Human-Centric Design",
+      desc: "Address cultural resistance with change management frameworks, employee training programs, and intuitive interfaces."
+    }
+  ];
+
   return (
     <Layout>
       <div className="relative pt-32 pb-20 overflow-hidden">
@@ -33,11 +56,11 @@ export default function Enterprise() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl text-muted-foreground leading-relaxed"
             >
-              Nexus is architected to meet the rigorous demands of global enterprises. Deploy anywhere, govern everywhere.
+              The command center for AI governance, ROI tracking, and deployment scaling. Deploy anywhere, govern everywhere.
             </motion.p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-32">
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -88,6 +111,41 @@ export default function Enterprise() {
               ))}
             </motion.div>
           </div>
+
+          {/* Competitive Advantage Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-20"
+          >
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-mono font-bold mb-4">WHY NEXUS WINS</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Unlike generic AI tools, we differentiate through deep integration and measurable outcomes.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {competitiveAdvantages.map((advantage, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-colors"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
+                      <advantage.icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-mono font-bold">{advantage.title}</h3>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">{advantage.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
 
           <div className="bg-card border border-border p-12 rounded-2xl text-center">
             <h2 className="text-3xl font-mono font-bold mb-6">Secure your future.</h2>

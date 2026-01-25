@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Shield, BarChart3, CheckCircle2, Network, ArrowRight } from "lucide-react";
+import { Shield, BarChart3, CheckCircle2, Network, ArrowRight, AlertTriangle, TrendingUp, Zap } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
 import { useRef, useState } from "react";
 
@@ -123,7 +123,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             className="text-xl md:text-2xl text-muted-foreground max-w-2xl leading-relaxed mb-10"
           >
-            The enterprise-grade operating system for AI adoption.
+            Bridge the GenAI Divide. Scale AI initiatives from pilots to production with measurable ROI.
             <br />
             <span className="text-primary font-semibold">Govern. Guide. Validate. Measure.</span>
           </motion.p>
@@ -195,6 +195,91 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* The GenAI Divide - Problem Statement */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-destructive/5"></div>
+        <div className="container relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-destructive/10 border border-destructive/20 text-destructive text-sm font-mono mb-6">
+                <AlertTriangle className="h-4 w-4" />
+                <span>THE GENAI DIVIDE</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-mono font-bold mb-6 tracking-tight">
+                95% OF AI PILOTS FAIL.
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                Despite $30–40 billion in enterprise AI investments, most organizations are stuck in experimentation. 
+                Only <span className="text-foreground font-semibold">5%</span> achieve transformative adoption.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  icon: AlertTriangle,
+                  title: "Brittle Workflows",
+                  desc: "Tools that fail to adapt to context and business-specific requirements."
+                },
+                {
+                  icon: Zap,
+                  title: "Lack of Integration",
+                  desc: "AI tools disconnected from existing systems and enterprise processes."
+                },
+                {
+                  icon: BarChart3,
+                  title: "No ROI Visibility",
+                  desc: "Inability to measure and attribute AI impact to business outcomes."
+                },
+                {
+                  icon: TrendingUp,
+                  title: "Scaling Barriers",
+                  desc: "Successful pilots that can't transition to enterprise-wide production."
+                }
+              ].map((problem, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-card border border-border/50 rounded-xl p-6 hover:border-destructive/30 transition-colors"
+                >
+                  <div className="h-10 w-10 rounded-lg bg-destructive/10 flex items-center justify-center mb-4 border border-destructive/20">
+                    <problem.icon className="h-5 w-5 text-destructive" />
+                  </div>
+                  <h3 className="font-mono font-bold mb-2">{problem.title}</h3>
+                  <p className="text-sm text-muted-foreground">{problem.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-16 text-center"
+            >
+              <p className="text-xl text-muted-foreground mb-6">
+                Nexus is the <span className="text-primary font-semibold">command center</span> that helps enterprises cross the divide.
+              </p>
+              <Button 
+                size="lg" 
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+                onClick={() => window.location.href = "/solutions"}
+              >
+                See How We Solve This <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
       {/* Dynamic Scrollytelling Core Modules Section */}
       <section ref={scrollSectionRef} className="relative transition-colors duration-1000" style={{ backgroundColor: activeColor }}>
