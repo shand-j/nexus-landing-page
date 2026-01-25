@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Users, Target, Eye, Brain, LineChart } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 
 export default function About() {
   return (
@@ -120,11 +121,11 @@ export default function About() {
               Led by seasoned professionals with expertise in <span className="text-foreground font-medium">AI governance</span>, <span className="text-foreground font-medium">enterprise software</span>, and <span className="text-foreground font-medium">organizational transformation</span>. Our team combines academic rigor with practical business execution, leveraging insights from leading AI research to deliver real-world results.
             </p>
             <div className="flex justify-center gap-4">
-              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                Join Our Team
+              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                <Link href="/company/careers">Join Our Team</Link>
               </Button>
-              <Button size="lg" variant="outline">
-                Learn More
+              <Button asChild size="lg" variant="outline">
+                <Link href="/company/contact">Learn More</Link>
               </Button>
             </div>
           </motion.div>

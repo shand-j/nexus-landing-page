@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Shield, BarChart3, CheckCircle2, Network, ArrowRight, AlertTriangle, TrendingUp, Zap } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
 import { useRef, useState } from "react";
+import { Link } from "wouter";
 
 export default function Home() {
   const targetRef = useRef(null);
@@ -269,12 +270,10 @@ export default function Home() {
               <p className="text-xl text-muted-foreground mb-6">
                 Nexus is the <span className="text-primary font-semibold">command center</span> that helps enterprises cross the divide.
               </p>
-              <Button 
-                size="lg" 
-                className="bg-primary text-primary-foreground hover:bg-primary/90"
-                onClick={() => window.location.href = "/solutions"}
-              >
-                See How We Solve This <ArrowRight className="ml-2 h-4 w-4" />
+              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                <Link href="/solutions">
+                  See How We Solve This <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </motion.div>
           </div>
