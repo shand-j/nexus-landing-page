@@ -2,17 +2,9 @@
 
 This document describes how to configure and deploy the Nexus landing page to GitHub Pages.
 
-## Automatic Deployment
+## Branch-Based Deployment
 
-This repository is configured for automatic deployment to GitHub Pages. When you push changes to the `main` branch, the site will automatically build and deploy.
-
-### Workflow Overview
-
-The deployment uses the `.github/workflows/deploy-pages.yml` workflow which:
-
-1. **Triggers on**: Push to `main` branch or manual workflow dispatch
-2. **Builds**: Runs `pnpm run build:pages` to create a static build
-3. **Deploys**: Uploads the build artifacts to GitHub Pages
+This repository is configured for deployment to GitHub Pages from a branch. The built files should be committed to a `gh-pages` branch which GitHub Pages will serve.
 
 ## Required GitHub Pages Configuration
 
@@ -23,16 +15,48 @@ To enable GitHub Pages deployment, you need to configure the repository settings
 1. Go to your repository on GitHub
 2. Navigate to **Settings** → **Pages**
 3. Under **Build and deployment**:
-   - **Source**: Select **GitHub Actions**
+   - **Source**: Select **Deploy from a branch**
+   - **Branch**: Select `gh-pages` branch and `/ (root)` folder
 
-That's it! The workflow will handle the rest automatically.
+### Step 2: Build and Deploy
 
-### Step 2: Verify Deployment
+To deploy the site:
 
-After pushing to `main`, you can:
+1. Build the static site:
+   ```bash
+   pnpm install
+   pnpm run build:pages
+   ```
 
-1. Go to the **Actions** tab to monitor the deployment workflow
-2. Once complete, your site will be available at: `https://<username>.github.io/<repository-name>/`
+2. The built files will be in `dist/public/`. Deploy these to the `gh-pages` branch:
+   ```bash
+   # Create orphan gh-pages branch if it doesn't exist
+   git checkout --orphan gh-pages
+   
+   # Clear the branch
+   git rm -rf .
+   
+   # Copy the built files
+   cp -r dist/public/* .
+   
+   # Commit and push
+   git add .
+   git commit -m "Deploy to GitHub Pages"
+   git push origin gh-pages --force
+   
+   # Return to main branch
+   git checkout main
+   ```
+
+3. Your site will be available at: `https://<username>.github.io/nexus-landing-page/`
+
+### Alternative: Using gh-pages Package
+
+You can also use the `gh-pages` npm package for easier deployment:
+
+```bash
+npx gh-pages -d dist/public
+```
 
 ## Build Scripts
 
@@ -68,20 +92,21 @@ If these are not set, the analytics script will have placeholder values that won
 ### Build Failures
 
 If the build fails:
-1. Check the **Actions** tab for error logs
-2. Ensure all dependencies are correctly specified in `package.json`
-3. Run `pnpm run build:pages` locally to debug issues
+1. Ensure all dependencies are correctly specified in `package.json`
+2. Run `pnpm run build:pages` locally to debug issues
+3. Check the build output for error messages
 
 ### 404 Errors on Routes
 
 If routes like `/product/govern` return 404:
 1. Ensure the `404.html` file is being created during build
 2. Verify the `build:pages` script includes the copy command
-3. Check that GitHub Pages Source is set to "GitHub Actions"
+3. Check that GitHub Pages Source is set to "Deploy from a branch" and pointing to `gh-pages`
 
 ### Assets Not Loading
 
 If CSS, JS, or images don't load:
 1. Check browser console for errors
-2. Verify the base path is correct in `vite.config.ts`
+2. Verify the `base` path in `vite.config.ts` matches your repository name (`/nexus-landing-page/`)
 3. Ensure all assets are in the `client/public` directory or imported correctly
+4. Rebuild and redeploy after any configuration changes
