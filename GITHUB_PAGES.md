@@ -64,15 +64,6 @@ If you want to use a custom domain:
 3. Add a `CNAME` file to the `client/public` directory with your domain name
 4. Configure your DNS provider to point to GitHub Pages
 
-## Environment Variables
-
-The site uses environment variables for analytics configuration. These are injected at build time:
-
-- `VITE_ANALYTICS_ENDPOINT`: Analytics endpoint URL
-- `VITE_ANALYTICS_WEBSITE_ID`: Analytics website identifier
-
-If these are not set, the analytics script will have placeholder values that won't affect the site functionality.
-
 ## Troubleshooting
 
 ### Build Failures

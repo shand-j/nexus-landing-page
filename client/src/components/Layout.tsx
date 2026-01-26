@@ -4,6 +4,9 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
+// Get base path for assets
+const basePath = import.meta.env.BASE_URL;
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,7 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link href="/">
             <div className="flex items-center gap-2 cursor-pointer">
               <img 
-                src="/nexus_logo_monogram_transparent.png" 
+                src={`${basePath}nexus_logo_monogram_transparent.png`}
                 alt="Nexus Logo" 
                 className="h-8 w-8 object-contain" 
               />
@@ -97,7 +100,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <img 
-                src="/nexus_logo_monogram_transparent.png" 
+                src={`${basePath}nexus_logo_monogram_transparent.png`}
                 alt="Nexus Logo" 
                 className="h-6 w-6 object-contain" 
               />
