@@ -2,9 +2,12 @@
 
 This document describes how to configure and deploy the Nexus landing page to GitHub Pages.
 
-## Branch-Based Deployment
+## Automated Deployment with GitHub Actions
 
-This repository is configured for deployment to GitHub Pages from a branch. The built files should be committed to a `gh-pages` branch which GitHub Pages will serve.
+This repository uses GitHub Actions for automatic deployment to GitHub Pages. When you push to the `main` branch, the workflow automatically:
+1. Installs dependencies
+2. Builds the static site
+3. Deploys to GitHub Pages
 
 ## Required GitHub Pages Configuration
 
@@ -15,48 +18,31 @@ To enable GitHub Pages deployment, you need to configure the repository settings
 1. Go to your repository on GitHub
 2. Navigate to **Settings** → **Pages**
 3. Under **Build and deployment**:
-   - **Source**: Select **Deploy from a branch**
-   - **Branch**: Select `gh-pages` branch and `/ (root)` folder
+   - **Source**: Select **GitHub Actions**
 
-### Step 2: Build and Deploy
+### Step 2: Deploy
 
-To deploy the site:
+Simply push your changes to the `main` branch. The GitHub Actions workflow (`.github/workflows/deploy-pages.yml`) will automatically build and deploy your site.
 
-1. Build the static site:
-   ```bash
-   pnpm install
-   pnpm run build:pages
-   ```
+Your site will be available at: `https://<username>.github.io/nexus-landing-page/`
 
-2. The built files will be in `dist/public/`. Deploy these to the `gh-pages` branch:
-   ```bash
-   # Create orphan gh-pages branch if it doesn't exist
-   git checkout --orphan gh-pages
-   
-   # Clear the branch
-   git rm -rf .
-   
-   # Copy the built files
-   cp -r dist/public/* .
-   
-   # Commit and push
-   git add .
-   git commit -m "Deploy to GitHub Pages"
-   git push origin gh-pages --force
-   
-   # Return to main branch
-   git checkout main
-   ```
+### Manual Trigger
 
-3. Your site will be available at: `https://<username>.github.io/nexus-landing-page/`
+You can also manually trigger a deployment from the Actions tab:
+1. Go to **Actions** tab in your repository
+2. Select "Deploy to GitHub Pages" workflow
+3. Click **Run workflow** → **Run workflow**
 
-### Alternative: Using gh-pages Package
+### Local Development and Testing
 
-You can also use the `gh-pages` npm package for easier deployment:
+To test the build locally before pushing:
 
 ```bash
-npx gh-pages -d dist/public
+pnpm install
+pnpm run build:pages
 ```
+
+The built files will be in `dist/public/`.
 
 ## Build Scripts
 
@@ -101,7 +87,7 @@ If the build fails:
 If routes like `/product/govern` return 404:
 1. Ensure the `404.html` file is being created during build
 2. Verify the `build:pages` script includes the copy command
-3. Check that GitHub Pages Source is set to "Deploy from a branch" and pointing to `gh-pages`
+3. Check that GitHub Pages Source is set to **GitHub Actions** in repository settings
 
 ### Assets Not Loading
 
