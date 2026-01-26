@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Lock, Eye, Activity } from "lucide-react";
 import { motion } from "framer-motion";
 
+// Get base path for assets
+const basePath = import.meta.env.BASE_URL;
+
 export default function Govern() {
   return (
     <Layout>
@@ -47,7 +50,7 @@ export default function Govern() {
             >
               <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full opacity-20"></div>
               <img
-                src="/images/nexus_govern_dashboard.png"
+                src={`${basePath}images/nexus_govern_dashboard.png`}
                 alt="Governance Dashboard"
                 className="relative rounded-xl border border-primary/20 shadow-2xl"
               />

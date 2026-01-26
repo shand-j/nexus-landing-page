@@ -4,6 +4,9 @@ import { Shield, BarChart3, CheckCircle2, Network, ArrowRight } from "lucide-rea
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
 import { useRef, useState } from "react";
 
+// Get base path for assets
+const basePath = import.meta.env.BASE_URL;
+
 export default function Home() {
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -33,21 +36,21 @@ export default function Home() {
 
   // Dynamic background color based on scroll position
   const [activeColor, setActiveColor] = useState("rgba(6,182,212,0.1)"); // Default Teal
-  const [activeImage, setActiveImage] = useState("/images/nexus_govern_3d.png");
+  const [activeImage, setActiveImage] = useState(`${basePath}images/nexus_govern_3d.png`);
   
   useMotionValueEvent(featureScrollProgress, "change", (latest) => {
     if (latest < 0.25) {
       setActiveColor("rgba(6,182,212,0.1)"); // Teal (Govern)
-      setActiveImage("/images/nexus_govern_3d.png");
+      setActiveImage(`${basePath}images/nexus_govern_3d.png`);
     } else if (latest < 0.5) {
       setActiveColor("rgba(168,85,247,0.1)"); // Violet (Guide)
-      setActiveImage("/images/nexus_guide_3d.png");
+      setActiveImage(`${basePath}images/nexus_guide_3d.png`);
     } else if (latest < 0.75) {
       setActiveColor("rgba(74,222,128,0.1)"); // Green (Validate)
-      setActiveImage("/images/nexus_validate_3d.png");
+      setActiveImage(`${basePath}images/nexus_validate_3d.png`);
     } else {
       setActiveColor("rgba(96,165,250,0.1)"); // Blue (Measure)
-      setActiveImage("/images/nexus_measure_3d.png");
+      setActiveImage(`${basePath}images/nexus_measure_3d.png`);
     }
   });
 
@@ -156,7 +159,7 @@ export default function Home() {
           <div className="relative rounded-t-xl border-t border-x border-primary/20 bg-card/80 backdrop-blur-xl shadow-[0_-20px_80px_-20px_rgba(6,182,212,0.3)] overflow-hidden group">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
             <img 
-              src="/images/nexus_dashboard_mockup.png" 
+              src={`${basePath}images/nexus_dashboard_mockup.png`}
               alt="Nexus Dashboard" 
               className="w-full h-auto opacity-90 group-hover:opacity-100 transition-opacity duration-500"
             />
@@ -167,7 +170,7 @@ export default function Home() {
               className="absolute left-0 w-full h-[2px] bg-primary/50 shadow-[0_0_20px_rgba(6,182,212,0.5)] z-20"
             ></motion.div>
             {/* Grid Overlay */}
-            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none"></div>
+            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: `url('${basePath}grid-pattern.svg')` }}></div>
           </div>
         </motion.div>
       </section>
@@ -216,7 +219,7 @@ export default function Home() {
                   alt="Feature Preview" 
                   className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen"
                 />
-                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20"></div>
+                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `url('${basePath}grid-pattern.svg')` }}></div>
                 
                 {/* Dynamic Overlay Elements */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 border border-white/10 rounded-lg shadow-[0_0_30px_rgba(6,182,212,0.2)]"></div>

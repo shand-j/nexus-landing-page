@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, BarChart3, TrendingUp, PieChart, LineChart } from "lucide-react";
 import { motion } from "framer-motion";
 
+// Get base path for assets
+const basePath = import.meta.env.BASE_URL;
+
 export default function Measure() {
   return (
     <Layout>
@@ -82,7 +85,7 @@ export default function Measure() {
             >
               <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full opacity-20"></div>
               <img
-                src="/images/nexus_dashboard_mockup.png"
+                src={`${basePath}images/nexus_dashboard_mockup.png`}
                 alt="Analytics Dashboard"
                 className="relative rounded-xl border border-blue-500/20 shadow-2xl"
               />
