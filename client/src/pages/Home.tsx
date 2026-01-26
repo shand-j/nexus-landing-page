@@ -170,7 +170,7 @@ export default function Home() {
               className="absolute left-0 w-full h-[2px] bg-primary/50 shadow-[0_0_20px_rgba(6,182,212,0.5)] z-20"
             ></motion.div>
             {/* Grid Overlay */}
-            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none" style={{ backgroundImage: `url('${basePath}grid-pattern.svg')` }}></div>
+            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: `url('${basePath}grid-pattern.svg')` }}></div>
           </div>
         </motion.div>
       </section>
