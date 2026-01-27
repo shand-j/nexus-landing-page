@@ -24,7 +24,7 @@ To enable GitHub Pages deployment, you need to configure the repository settings
 
 Simply push your changes to the `main` branch. The GitHub Actions workflow (`.github/workflows/deploy-pages.yml`) will automatically build and deploy your site.
 
-Your site will be available at: `https://<username>.github.io/nexus-landing-page/`
+Your site will be available at: `https://get-nexus.app/` (custom domain) or `https://<username>.github.io/nexus-landing-page/` if no custom domain is configured.
 
 ### Manual Trigger
 
@@ -84,6 +84,8 @@ If routes like `/product/govern` return 404:
 
 If CSS, JS, or images don't load:
 1. Check browser console for errors
-2. Verify the `base` path in `vite.config.ts` matches your repository name (`/nexus-landing-page/`)
+2. Verify the `base` path in `vite.config.ts`:
+   - Use `/` when using a custom domain (e.g., `get-nexus.app`)
+   - Use `/repository-name/` when using the default GitHub Pages URL
 3. Ensure all assets are in the `client/public` directory or imported correctly
 4. Rebuild and redeploy after any configuration changes
