@@ -117,33 +117,58 @@ export default function Home() {
             transition={{ duration: 1, ease: "circOut" }}
             className="text-5xl md:text-8xl font-mono font-bold tracking-tighter leading-tight mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white/90 to-white/50 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
           >
-            <span className="text-primary text-2xl md:text-3xl block mb-4 font-normal tracking-[0.2em] uppercase">nexus /noun/</span>
-            A CONNECTION OR SERIES OF CONNECTIONS LINKING TWO OR MORE THINGS.
+            <span className="text-primary text-2xl md:text-3xl block mb-4 font-normal tracking-[0.2em] uppercase">THE AI GOVERNANCE PLATFORM</span>
+            TURN AI PILOTS INTO PRODUCTION AT ENTERPRISE SCALE
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="text-xl md:text-2xl text-muted-foreground max-w-2xl leading-relaxed mb-10"
+            className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed mb-10"
           >
-            Bridge the GenAI Divide. Scale AI initiatives from pilots to production with measurable ROI.
+            The only platform that connects AI visibility, security, quality assurance, and ROI measurement in one unified command center.
             <br />
-            <span className="text-primary font-semibold">Govern. Guide. Validate. Measure.</span>
+            <span className="text-primary font-semibold text-2xl md:text-3xl mt-2 block">Govern. Guide. Validate. Measure.</span>
           </motion.p>
           
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="flex flex-wrap justify-center gap-4"
+            className="flex flex-wrap justify-center gap-4 mb-12"
           >
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300" onClick={() => window.location.href = "/product/govern"}>
-              Initialize System <ArrowRight className="ml-2 h-5 w-5" />
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300" onClick={() => window.location.href = "/enterprise"}>
+              See Enterprise Solutions <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-sm" onClick={() => window.location.href = "/solutions"}>
-              View Schematics
+            <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-sm" onClick={() => window.location.href = "/company/contact"}>
+              Book a Demo
             </Button>
+          </motion.div>
+
+          {/* Trust Indicators */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
+            className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground"
+          >
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-green-400" />
+              <span>SOC 2 Type II</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-green-400" />
+              <span>GDPR Compliant</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-green-400" />
+              <span>ISO 27001 Certified</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Shield className="h-5 w-5 text-primary" />
+              <span>Enterprise-Grade Security</span>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -283,6 +308,113 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Value Proposition - Why Enterprises Choose Nexus */}
+      <section className="py-24 relative overflow-hidden bg-card">
+        <div className="absolute inset-0 bg-primary/5"></div>
+        <div className="container relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-6">
+                <CheckCircle2 className="h-4 w-4" />
+                <span>THE NEXUS ADVANTAGE</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-mono font-bold mb-6 tracking-tight">
+                WHY ENTERPRISES CHOOSE NEXUS
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                The first and only unified platform that delivers end-to-end AI governance with measurable business impact.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {[
+                {
+                  icon: Network,
+                  title: "Complete Visibility",
+                  desc: "Monitor every AI interaction across your organization. Connect to existing systems and LLM logs for full-spectrum oversight.",
+                  metric: "100% Coverage",
+                  color: "text-primary"
+                },
+                {
+                  icon: Shield,
+                  title: "Enterprise Security",
+                  desc: "SOC 2 Type II certified with SSO, SCIM, and on-premise deployment options. Your data never leaves your control.",
+                  metric: "Zero-Trust Architecture",
+                  color: "text-secondary"
+                },
+                {
+                  icon: BarChart3,
+                  title: "Proven ROI",
+                  desc: "Track productivity gains, cost savings, and operational impact with real-time dashboards. Attribute AI value to specific projects and teams.",
+                  metric: "340% Avg. Efficiency Gain",
+                  color: "text-green-400"
+                },
+                {
+                  icon: TrendingUp,
+                  title: "Scale with Confidence",
+                  desc: "Move from pilot to production seamlessly. Automated quality assurance and human-in-the-loop validation ensure reliability at scale.",
+                  metric: "10x Faster Deployment",
+                  color: "text-blue-400"
+                }
+              ].map((value, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-background border border-border rounded-xl p-8 hover:border-primary/30 transition-all hover:shadow-[0_0_30px_rgba(6,182,212,0.1)]"
+                >
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className={`h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center border border-accent/20 ${value.color}`}>
+                      <value.icon className="h-6 w-6" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-mono font-bold text-xl mb-2">{value.title}</h3>
+                      <div className={`inline-flex px-3 py-1 rounded-full text-xs font-mono ${value.color} bg-accent/20 mb-3`}>
+                        {value.metric}
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">{value.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-16 bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-2xl p-8 md:p-12 text-center"
+            >
+              <h3 className="text-2xl md:text-3xl font-mono font-bold mb-4">
+                Ready to Transform Your AI Strategy?
+              </h3>
+              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Join leading enterprises using Nexus to govern, secure, and scale their AI initiatives with measurable ROI.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8">
+                  <Link href="/enterprise">
+                    Explore Enterprise Solutions <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="h-12 px-8">
+                  <Link href="/company/contact">
+                    Schedule a Consultation
+                  </Link>
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Dynamic Scrollytelling Core Modules Section */}
       <section ref={scrollSectionRef} className="relative transition-colors duration-1000" style={{ backgroundColor: activeColor }}>
         <div className="container relative">
@@ -383,7 +515,7 @@ export default function Home() {
 
       {/* Final CTA Section */}
       <section className="py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary/5"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-secondary/5"></div>
         <div className="container relative z-10 text-center">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -391,25 +523,47 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-4xl md:text-6xl font-mono font-bold mb-8"
           >
-            READY TO TAKE COMMAND?
+            READY TO SCALE YOUR AI INITIATIVES?
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12"
+            className="text-xl text-muted-foreground max-w-3xl mx-auto mb-4"
           >
-            Join the enterprise leaders who are already governing their AI future with Nexus.
+            Join enterprise leaders using Nexus to achieve <span className="text-primary font-semibold">340% efficiency gains</span> and <span className="text-primary font-semibold">10x faster AI deployment</span>.
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12"
+          >
+            Schedule a personalized demo to see how Nexus can transform your AI strategy.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
+            className="flex flex-wrap justify-center gap-4"
           >
-            <Button size="lg" className="h-16 px-12 text-xl bg-white text-black hover:bg-white/90 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] transition-all duration-300">
-              Book a Demo
+            <Button 
+              size="lg" 
+              className="h-16 px-12 text-xl bg-primary text-primary-foreground hover:bg-primary/90 rounded-full shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transition-all duration-300"
+              onClick={() => window.location.href = "/company/contact"}
+            >
+              Book a Demo <ArrowRight className="ml-2 h-6 w-6" />
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="h-16 px-12 text-xl rounded-full border-primary/20 hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
+              onClick={() => window.location.href = "/pricing"}
+            >
+              View Pricing
             </Button>
           </motion.div>
         </div>

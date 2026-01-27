@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Linkedin, Twitter, Github, Mail } from "lucide-react";
 import { useState } from "react";
 
 // Get base path for assets
@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "Solutions", href: "/solutions" },
     { name: "Enterprise", href: "/enterprise" },
     { name: "Pricing", href: "/pricing" },
-    { name: "Documentation", href: "https://docs.get-nexus.app", external: true },
+    { name: "Resources", href: "/company/blog" },
   ];
 
   return (
@@ -37,25 +37,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              item.external ? (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {item.name}
-                </a>
-              ) : (
-                <Link 
-                  key={item.name} 
-                  href={item.href}
-                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {item.name}
-                </Link>
-              )
+              <Link 
+                key={item.name} 
+                href={item.href}
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              >
+                {item.name}
+              </Link>
             ))}
           </nav>
 
@@ -79,27 +67,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               <nav className="flex flex-col gap-6 mt-10">
                 {navItems.map((item) => (
-                  item.external ? (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-lg font-medium text-foreground hover:text-primary transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </a>
-                  ) : (
-                    <Link 
-                      key={item.name} 
-                      href={item.href}
-                      className="text-lg font-medium text-foreground hover:text-primary transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  )
+                  <Link 
+                    key={item.name} 
+                    href={item.href}
+                    className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
                 ))}
                 <div className="flex flex-col gap-4 mt-4">
                   <Button variant="outline" className="w-full justify-center">
@@ -122,8 +97,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Footer */}
       <footer className="border-t border-border/10 bg-card py-12 md:py-20">
-        <div className="container grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div className="space-y-4">
+        <div className="container grid grid-cols-1 md:grid-cols-5 gap-10">
+          <div className="space-y-4 md:col-span-2">
             <div className="flex items-center gap-2">
               <img 
                 src={`${basePath}nexus_logo_monogram_transparent.png`}
@@ -135,6 +110,43 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <p className="text-sm text-muted-foreground max-w-xs">
               Bridge the GenAI Divide. Scale AI from pilots to production with measurable ROI.
             </p>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Mail className="h-4 w-4" />
+                <a href="mailto:contact@get-nexus.app" className="hover:text-primary transition-colors">
+                  contact@get-nexus.app
+                </a>
+              </div>
+            </div>
+            <div className="flex gap-4 pt-4">
+              <a 
+                href="https://www.linkedin.com/company/nexus-ai" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="h-9 w-9 flex items-center justify-center rounded-lg bg-accent/50 hover:bg-accent transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
+              <a 
+                href="https://twitter.com/nexusai" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="h-9 w-9 flex items-center justify-center rounded-lg bg-accent/50 hover:bg-accent transition-colors"
+                aria-label="Twitter"
+              >
+                <Twitter className="h-4 w-4" />
+              </a>
+              <a 
+                href="https://github.com/nexus-ai" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="h-9 w-9 flex items-center justify-center rounded-lg bg-accent/50 hover:bg-accent transition-colors"
+                aria-label="GitHub"
+              >
+                <Github className="h-4 w-4" />
+              </a>
+            </div>
           </div>
           
           <div>
@@ -166,8 +178,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </ul>
           </div>
         </div>
-        <div className="container mt-12 pt-8 border-t border-border/10 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Nexus AI Inc. All rights reserved.
+        <div className="container mt-12 pt-8 border-t border-border/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} Nexus AI Inc. All rights reserved.</p>
+          <div className="flex gap-6">
+            <span className="inline-flex items-center gap-1">
+              <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+              SOC 2 Type II Certified
+            </span>
+            <span>GDPR Compliant</span>
+            <span>ISO 27001</span>
+          </div>
         </div>
       </footer>
     </div>
