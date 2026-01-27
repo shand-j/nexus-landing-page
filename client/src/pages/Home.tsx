@@ -138,11 +138,15 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
             className="flex flex-wrap justify-center gap-4 mb-12"
           >
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300" onClick={() => window.location.href = "/enterprise"}>
-              See Enterprise Solutions <ArrowRight className="ml-2 h-5 w-5" />
+            <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300">
+              <Link href="/enterprise">
+                See Enterprise Solutions <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-sm" onClick={() => window.location.href = "/company/contact"}>
-              Book a Demo
+            <Button asChild size="lg" variant="outline" className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-sm">
+              <Link href="/company/contact">
+                Book a Demo
+              </Link>
             </Button>
           </motion.div>
 
@@ -361,13 +365,13 @@ export default function Home() {
                   metric: "10x Faster Deployment",
                   color: "text-blue-400"
                 }
-              ].map((value, i) => (
+              ].map((value) => (
                 <motion.div
-                  key={i}
+                  key={value.title}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: 0.1 }}
                   className="bg-background border border-border rounded-xl p-8 hover:border-primary/30 transition-all hover:shadow-[0_0_30px_rgba(6,182,212,0.1)]"
                 >
                   <div className="flex items-start gap-4 mb-6">
@@ -481,8 +485,8 @@ export default function Home() {
                   color: "text-blue-400",
                   href: "/product/measure"
                 }
-              ].map((feature, i) => (
-                <div key={i} className="min-h-[80vh] flex flex-col justify-center p-8 border-l border-border/20 ml-4 lg:ml-0">
+              ].map((feature) => (
+                <div key={feature.title} className="min-h-[80vh] flex flex-col justify-center p-8 border-l border-border/20 ml-4 lg:ml-0">
                   <motion.div
                     initial={{ opacity: 0, x: -50, filter: "blur(10px)" }}
                     whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
@@ -499,11 +503,13 @@ export default function Home() {
                       {feature.desc}
                     </p>
                     <Button 
+                      asChild
                       variant="link" 
                       className={`p-0 text-lg ${feature.color} hover:opacity-80 group`}
-                      onClick={() => window.location.href = feature.href}
                     >
-                      Explore {feature.title} <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      <Link href={feature.href}>
+                        Explore {feature.title} <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      </Link>
                     </Button>
                   </motion.div>
                 </div>
@@ -551,19 +557,23 @@ export default function Home() {
             className="flex flex-wrap justify-center gap-4"
           >
             <Button 
+              asChild
               size="lg" 
               className="h-16 px-12 text-xl bg-primary text-primary-foreground hover:bg-primary/90 rounded-full shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transition-all duration-300"
-              onClick={() => window.location.href = "/company/contact"}
             >
-              Book a Demo <ArrowRight className="ml-2 h-6 w-6" />
+              <Link href="/company/contact">
+                Book a Demo <ArrowRight className="ml-2 h-6 w-6" />
+              </Link>
             </Button>
             <Button 
+              asChild
               size="lg" 
               variant="outline"
               className="h-16 px-12 text-xl rounded-full border-primary/20 hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
-              onClick={() => window.location.href = "/pricing"}
             >
-              View Pricing
+              <Link href="/pricing">
+                View Pricing
+              </Link>
             </Button>
           </motion.div>
         </div>

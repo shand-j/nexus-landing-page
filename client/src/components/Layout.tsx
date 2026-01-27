@@ -113,7 +113,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4" />
-                <a href="mailto:contact@get-nexus.app" className="hover:text-primary transition-colors">
+                <a 
+                  href="mailto:contact@get-nexus.app" 
+                  className="hover:text-primary transition-colors"
+                  aria-label="Contact us via email at contact@get-nexus.app"
+                >
                   contact@get-nexus.app
                 </a>
               </div>
