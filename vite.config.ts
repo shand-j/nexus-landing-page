@@ -2,7 +2,7 @@ import { jsxLocPlugin } from "@builder.io/vite-plugin-jsx-loc";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
-import path from "path";
+import path from "node:path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
@@ -28,6 +28,12 @@ export default defineConfig({
     port: 3000,
     strictPort: false, // Will find next available port if 3000 is busy
     host: true,
+    https: fs.existsSync(path.resolve(import.meta.dirname, "certs", "cert.pem"))
+      ? {
+          key: fs.readFileSync(path.resolve(import.meta.dirname, "certs", "key.pem")),
+          cert: fs.readFileSync(path.resolve(import.meta.dirname, "certs", "cert.pem")),
+        }
+      : undefined,
     allowedHosts: [
       ".manuspre.computer",
       ".manus.computer",
