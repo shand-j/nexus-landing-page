@@ -213,7 +213,7 @@ pnpm run preview
 
 ### Working with Assets
 - Place images in `client/public/`
-- Reference via `basePath` variable: ``${basePath}image.png``
+- Reference via `basePath` variable: `` `${basePath}image.png` ``
 - basePath comes from `import.meta.env.BASE_URL`
 
 ## Important Notes
