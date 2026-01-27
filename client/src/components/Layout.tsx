@@ -15,6 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "Solutions", href: "/solutions" },
     { name: "Enterprise", href: "/enterprise" },
     { name: "Pricing", href: "/pricing" },
+    { name: "Documentation", href: "https://docs.get-nexus.app", external: true },
   ];
 
   return (
@@ -36,13 +37,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <Link 
-                key={item.name} 
-                href={item.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-              >
-                {item.name}
-              </Link>
+              item.external ? (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <Link 
+                  key={item.name} 
+                  href={item.href}
+                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
           </nav>
 
@@ -66,14 +79,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               <nav className="flex flex-col gap-6 mt-10">
                 {navItems.map((item) => (
-                  <Link 
-                    key={item.name} 
-                    href={item.href}
-                    className="text-lg font-medium text-foreground hover:text-primary transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
+                  item.external ? (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link 
+                      key={item.name} 
+                      href={item.href}
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  )
                 ))}
                 <div className="flex flex-col gap-4 mt-4">
                   <Button variant="outline" className="w-full justify-center">
