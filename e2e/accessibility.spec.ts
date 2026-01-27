@@ -50,14 +50,15 @@ test.describe('Accessibility', () => {
     const links = page.locator('a[href]');
     const count = await links.count();
     
-    // Check each link has meaningful text
-    for (let i = 0; i < Math.min(count, 20); i++) {
+    // Check all visible links have meaningful text or aria-label
+    // We check all links to ensure full accessibility compliance
+    for (let i = 0; i < count; i++) {
       const link = links.nth(i);
       if (await link.isVisible()) {
         const text = await link.textContent();
         const ariaLabel = await link.getAttribute('aria-label');
         
-        // Link should have text or aria-label
+        // Link should have text or aria-label for screen readers
         expect(text || ariaLabel).toBeTruthy();
       }
     }

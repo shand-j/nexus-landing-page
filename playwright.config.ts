@@ -71,6 +71,6 @@ export default defineConfig({
     command: 'pnpm dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120000,
+    timeout: 60000, // 60 seconds for dev server to start
   },
 });

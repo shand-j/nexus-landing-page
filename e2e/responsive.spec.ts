@@ -40,8 +40,9 @@ test.describe('Responsive Design', () => {
         const bodyWidth = await page.evaluate(() => document.body.scrollWidth);
         const viewportWidth = viewport.width;
         
-        // Allow for small differences (like 1-2px) due to scrollbars
-        expect(bodyWidth).toBeLessThanOrEqual(viewportWidth + 20);
+        // Allow small tolerance for scrollbars and sub-pixel rendering (typically 15-17px for scrollbar)
+        const scrollbarTolerance = 17;
+        expect(bodyWidth).toBeLessThanOrEqual(viewportWidth + scrollbarTolerance);
       });
 
       test('should display images responsively', async ({ page }) => {
