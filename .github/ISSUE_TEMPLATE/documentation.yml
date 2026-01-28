@@ -1,0 +1,148 @@
+name: Documentation
+description: Create or update documentation
+title: "[DOCS] "
+labels: ["documentation"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for documentation tasks.
+
+  - type: input
+    id: title
+    attributes:
+      label: Documentation Title
+      description: What documentation needs to be created or updated?
+      placeholder: "API integration guide for contact form"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation is this?
+      options:
+        - User Guide
+        - Developer Guide
+        - API Documentation
+        - Setup/Installation Guide
+        - Architecture Documentation
+        - Process Documentation
+        - README Update
+        - Contributing Guidelines
+        - Security Documentation
+        - Troubleshooting Guide
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: Why is this documentation needed? Who is the audience?
+      placeholder: "Developers need clear guidance on integrating with the contact form API..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current State
+      description: What documentation currently exists (if any)?
+      placeholder: "No documentation exists for the contact form API"
+    validations:
+      required: true
+
+  - type: textarea
+    id: target-state
+    attributes:
+      label: Target State
+      description: What should the documentation include when complete?
+      placeholder: |
+        - Overview of contact form API endpoints
+        - Authentication requirements
+        - Request/response examples
+        - Error handling guidance
+        - Rate limiting details
+        - Code samples in multiple languages
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgent is this documentation?
+      options:
+        - P0 - Critical - Blocking users/developers
+        - P1 - High - Important for adoption
+        - P2 - Medium - Improves experience
+        - P3 - Low - Nice to have
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Detailed scope of the documentation
+      placeholder: |
+        In Scope:
+        - Contact form API endpoints
+        - Authentication flow
+        - Example code
+        
+        Out of Scope:
+        - Backend implementation details
+        - Database schema
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will we know the documentation is complete?
+      placeholder: |
+        - [ ] Documentation covers all API endpoints
+        - [ ] Code examples provided and tested
+        - [ ] Common errors documented
+        - [ ] Diagrams/screenshots included where helpful
+        - [ ] Peer reviewed for clarity and accuracy
+        - [ ] Published in appropriate location
+        - [ ] Linked from main documentation index
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Location
+      description: Where should this documentation live?
+      placeholder: "/docs/api/contact-form.md or in README.md"
+    validations:
+      required: false
+
+  - type: textarea
+    id: related-issues
+    attributes:
+      label: Related Issues/PRs
+      description: Link to related issues or PRs
+      placeholder: "Related to #123, #456"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I have defined what documentation is needed
+          required: true
+        - label: I have identified the target audience
+          required: true
+        - label: I have provided clear acceptance criteria
+          required: true

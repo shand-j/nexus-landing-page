@@ -1,0 +1,149 @@
+name: Bug Report
+description: Report a bug or issue with the Nexus landing page
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide detailed information to help us resolve the issue quickly.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: A clear and concise description of the bug
+      placeholder: "The navigation menu doesn't work on mobile devices"
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: Current Behavior
+      description: What is currently happening?
+      placeholder: "When I click the menu icon on mobile, nothing happens..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should happen instead?
+      placeholder: "The menu should slide out from the left..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the issue
+      placeholder: |
+        1. Open the site on mobile device or in mobile view
+        2. Click the hamburger menu icon
+        3. Observe that nothing happens
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is this bug?
+      options:
+        - Critical - Blocks core functionality
+        - High - Major feature broken
+        - Medium - Feature partially working
+        - Low - Minor issue or cosmetic
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component/Area
+      description: Which part of the application is affected?
+      options:
+        - Navigation
+        - Hero Section
+        - Features Section
+        - Contact Form
+        - Footer
+        - Styling/CSS
+        - Performance
+        - Accessibility
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & Version
+      description: Which browser and version are you using?
+      placeholder: "Chrome 120, Safari 17, Firefox 121"
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device/OS
+      description: What device and operating system?
+      placeholder: "iPhone 15 iOS 17, Windows 11, macOS Sonoma"
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots/Videos
+      description: Add screenshots or video demonstrating the issue
+      placeholder: "Drag and drop images here or paste URLs"
+    validations:
+      required: false
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: Console Errors
+      description: Any errors shown in the browser console?
+      placeholder: "Paste any relevant console errors here"
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will we know this bug is fixed?
+      placeholder: |
+        - [ ] Mobile menu opens when clicked
+        - [ ] Menu items are visible and clickable
+        - [ ] Menu closes when clicking outside or on close button
+        - [ ] No console errors
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other relevant information
+      placeholder: "This started happening after the last deployment..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have provided all required information above
+          required: true

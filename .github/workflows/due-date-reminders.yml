@@ -1,0 +1,155 @@
+name: Due Date Reminders
+
+on:
+  schedule:
+    # Run every day at 9 AM UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check-due-dates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Issues Approaching Due Date
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            
+            // Get all open issues
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              per_page: 100
+            });
+            
+            const today = new Date();
+            const threeDaysFromNow = new Date(today);
+            threeDaysFromNow.setDate(today.getDate() + 3);
+            
+            for (const issue of issues) {
+              const body = issue.body || '';
+              
+              // Extract target due date from issue body
+              const dueDateMatch = body.match(/Target Due Date[:\s]+(\d{4}-\d{2}-\d{2})/i);
+              
+              if (dueDateMatch) {
+                const dueDate = new Date(dueDateMatch[1]);
+                const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                
+                // Check if due date is approaching (within 3 days) or overdue
+                if (daysUntilDue <= 3 && daysUntilDue >= 0) {
+                  // Due soon
+                  const comment = `⏰ **Due Date Reminder**\n\nThis issue is due in **${daysUntilDue} day${daysUntilDue !== 1 ? 's' : ''}** (${dueDate.toISOString().split('T')[0]}).\n\nPlease ensure all acceptance criteria are met and the issue is ready for closure.`;
+                  
+                  await github.rest.issues.createComment({
+                    issue_number: issue.number,
+                    owner,
+                    repo,
+                    body: comment
+                  });
+                  
+                  // Add approaching-due-date label
+                  await github.rest.issues.addLabels({
+                    issue_number: issue.number,
+                    owner,
+                    repo,
+                    labels: ['approaching-due-date']
+                  });
+                  
+                  console.log(`Reminded: Issue #${issue.number} - Due in ${daysUntilDue} days`);
+                  
+                } else if (daysUntilDue < 0) {
+                  // Overdue
+                  const daysOverdue = Math.abs(daysUntilDue);
+                  const comment = `⚠️ **Overdue Notice**\n\nThis issue is **${daysOverdue} day${daysOverdue !== 1 ? 's' : ''} overdue** (was due: ${dueDate.toISOString().split('T')[0]}).\n\nPlease review and update the status:\n- If complete, close the issue\n- If still in progress, update the due date\n- If blocked, add the 'blocked' label and comment with details`;
+                  
+                  await github.rest.issues.createComment({
+                    issue_number: issue.number,
+                    owner,
+                    repo,
+                    body: comment
+                  });
+                  
+                  // Add overdue label
+                  await github.rest.issues.addLabels({
+                    issue_number: issue.number,
+                    owner,
+                    repo,
+                    labels: ['overdue']
+                  });
+                  
+                  console.log(`Overdue: Issue #${issue.number} - ${daysOverdue} days overdue`);
+                }
+              }
+            }
+            
+            console.log('Due date check completed');
+
+  check-stale-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for Stale Issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            
+            // Get all open issues
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              per_page: 100
+            });
+            
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today);
+            thirtyDaysAgo.setDate(today.getDate() - 30);
+            
+            for (const issue of issues) {
+              const updatedAt = new Date(issue.updated_at);
+              
+              // Check if issue hasn't been updated in 30 days
+              if (updatedAt < thirtyDaysAgo) {
+                const daysSinceUpdate = Math.ceil((today - updatedAt) / (1000 * 60 * 60 * 24));
+                
+                // Check if we've already commented about staleness
+                const comments = await github.rest.issues.listComments({
+                  owner,
+                  repo,
+                  issue_number: issue.number
+                });
+                
+                const hasStaleComment = comments.data.some(comment => 
+                  comment.body && comment.body.includes('**Stale Issue Notice**')
+                );
+                
+                if (!hasStaleComment) {
+                  const comment = `🕒 **Stale Issue Notice**\n\nThis issue hasn't been updated in **${daysSinceUpdate} days**.\n\nPlease review and take action:\n- If still relevant, add a comment with an update\n- If complete, close the issue\n- If no longer needed, close with explanation\n\nThis issue will be automatically closed in 7 days if there is no activity.`;
+                  
+                  await github.rest.issues.createComment({
+                    issue_number: issue.number,
+                    owner,
+                    repo,
+                    body: comment
+                  });
+                  
+                  await github.rest.issues.addLabels({
+                    issue_number: issue.number,
+                    owner,
+                    repo,
+                    labels: ['stale']
+                  });
+                  
+                  console.log(`Marked stale: Issue #${issue.number} - ${daysSinceUpdate} days since update`);
+                }
+              }
+            }
+            
+            console.log('Stale issue check completed');

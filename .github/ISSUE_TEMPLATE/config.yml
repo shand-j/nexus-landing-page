@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🤔 Questions & Discussions
+    url: https://github.com/shand-j/nexus-landing-page/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 🔗 Related Project - Nexus
+    url: https://github.com/shand-j/nexus
+    about: Visit the main Nexus repository for core product issues

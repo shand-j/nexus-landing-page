@@ -1,0 +1,271 @@
+name: Governance Task
+description: Task related to governance, compliance, or automation workflows
+title: "[GOVERNANCE] "
+labels: ["governance", "automation", "needs-review"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for governance, compliance, security, or automation-related tasks.
+
+  - type: input
+    id: title
+    attributes:
+      label: Task Title
+      description: Clear, concise title for this governance task
+      placeholder: "Implement automated security scanning workflow"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: governance-category
+    attributes:
+      label: Governance Category
+      description: What type of governance task is this?
+      options:
+        - Security & Compliance
+        - Process Automation
+        - Documentation & Standards
+        - Access Control & Permissions
+        - Audit & Monitoring
+        - CI/CD & DevOps
+        - Data Privacy & Protection
+        - Legal & Regulatory
+        - Quality Assurance
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What is the goal of this governance task?
+      placeholder: "Establish automated security scanning to detect vulnerabilities in dependencies and code before deployment..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current State
+      description: What is the current situation? What gaps exist?
+      placeholder: |
+        - No automated security scanning in place
+        - Dependencies are not regularly audited
+        - Manual security reviews are inconsistent
+    validations:
+      required: true
+
+  - type: textarea
+    id: target-state
+    attributes:
+      label: Target State
+      description: What should the end state look like?
+      placeholder: |
+        - Automated security scans run on every PR
+        - Weekly dependency vulnerability reports
+        - Failed security checks block PR merges
+        - Dashboard showing security posture
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgent is this governance task?
+      options:
+        - P0 - Critical - Security/compliance risk
+        - P1 - High - Important for governance
+        - P2 - Medium - Process improvement
+        - P3 - Low - Nice to have
+    validations:
+      required: true
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      description: What is the impact of completing this task?
+      options:
+        - High - Significantly improves security/compliance
+        - Medium - Moderate improvement
+        - Low - Minor enhancement
+    validations:
+      required: true
+
+  - type: input
+    id: target-start-date
+    attributes:
+      label: Target Start Date
+      description: When should work on this begin? (YYYY-MM-DD)
+      placeholder: "2026-02-01"
+    validations:
+      required: true
+
+  - type: input
+    id: target-due-date
+    attributes:
+      label: Target Due Date
+      description: When should this be completed? (YYYY-MM-DD)
+      placeholder: "2026-02-15"
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Detailed scope of work - what's included and what's not
+      placeholder: |
+        In Scope:
+        - Set up GitHub Actions workflow for security scanning
+        - Configure CodeQL for static analysis
+        - Integrate npm audit for dependency scanning
+        - Configure branch protection rules
+        
+        Out of Scope:
+        - Remediation of existing vulnerabilities (separate task)
+        - Third-party security tool integration
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Specific, measurable criteria that must be met
+      placeholder: |
+        - [ ] GitHub Actions workflow configured and running
+        - [ ] CodeQL scans execute on every PR
+        - [ ] npm audit runs and reports vulnerabilities
+        - [ ] Branch protection rules enforced
+        - [ ] Security dashboard configured
+        - [ ] Documentation created for security process
+        - [ ] Team trained on new workflow
+        - [ ] All tests pass with new workflow in place
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-plan
+    attributes:
+      label: Implementation Plan
+      description: Step-by-step plan to complete this task
+      placeholder: |
+        1. Research and select appropriate security scanning tools
+        2. Create GitHub Actions workflow file
+        3. Configure CodeQL analysis
+        4. Set up npm audit integration
+        5. Test workflow on sample PRs
+        6. Configure branch protection rules
+        7. Create documentation
+        8. Conduct team training
+        9. Deploy to production
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies & Blockers
+      description: What dependencies or blockers exist?
+      placeholder: |
+        - Depends on: #45 (repository permissions setup)
+        - Requires: Admin access to configure branch protection
+        - Blocked by: Awaiting security tool approval from InfoSec
+    validations:
+      required: false
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks & Mitigation
+      description: What risks exist and how will they be mitigated?
+      placeholder: |
+        Risk: False positives may slow down development
+        Mitigation: Configure appropriate thresholds and allow override with approval
+        
+        Risk: Team unfamiliarity with new tools
+        Mitigation: Provide comprehensive training and documentation
+    validations:
+      required: false
+
+  - type: textarea
+    id: stakeholders
+    attributes:
+      label: Stakeholders
+      description: Who needs to be involved or informed?
+      placeholder: |
+        - Engineering Team (implementation)
+        - Security Team (review and approval)
+        - Product Owner (prioritization)
+        - Compliance Officer (regulatory requirements)
+    validations:
+      required: false
+
+  - type: textarea
+    id: compliance-requirements
+    attributes:
+      label: Compliance/Regulatory Requirements
+      description: Any compliance or regulatory requirements this addresses
+      placeholder: |
+        - SOC 2 Type II: Continuous security monitoring
+        - ISO 27001: Security controls documentation
+        - GDPR: Data protection by design
+    validations:
+      required: false
+
+  - type: textarea
+    id: success-metrics
+    attributes:
+      label: Success Metrics
+      description: How will success be measured?
+      placeholder: |
+        - 100% of PRs scanned before merge
+        - Zero critical vulnerabilities in production
+        - <24hr time to detect new vulnerabilities
+        - 90% team satisfaction with new workflow
+    validations:
+      required: false
+
+  - type: textarea
+    id: rollout-plan
+    attributes:
+      label: Rollout Plan
+      description: How will this be rolled out?
+      placeholder: |
+        Phase 1: Test on non-critical repositories (Week 1-2)
+        Phase 2: Pilot with main repository (Week 3)
+        Phase 3: Full rollout across all repositories (Week 4)
+    validations:
+      required: false
+
+  - type: textarea
+    id: automation-details
+    attributes:
+      label: Automation Details
+      description: If this involves automation, provide technical details
+      placeholder: |
+        - GitHub Actions workflow triggered on PR events
+        - Results posted as PR comments
+        - Integration with project board for tracking
+        - Slack notifications for critical findings
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I have defined clear acceptance criteria
+          required: true
+        - label: I have set realistic target start and due dates
+          required: true
+        - label: I have identified all dependencies and stakeholders
+          required: true
+        - label: I have considered risks and compliance requirements
+          required: true

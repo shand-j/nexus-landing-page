@@ -1,0 +1,142 @@
+name: Auto Label Issues
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  label-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label Bug Reports
+        if: contains(github.event.issue.title, '[BUG]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['bug']
+            })
+
+      - name: Label Feature Requests
+        if: contains(github.event.issue.title, '[FEATURE]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['enhancement']
+            })
+
+      - name: Label Governance Tasks
+        if: contains(github.event.issue.title, '[GOVERNANCE]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['governance', 'automation']
+            })
+
+      - name: Label Documentation
+        if: contains(github.event.issue.title, '[DOCS]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['documentation']
+            })
+
+      - name: Label Priority Issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            
+            // Check for critical/high priority indicators
+            if (body.includes('P0 - Critical') || body.includes('Critical')) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['priority:critical']
+              });
+            } else if (body.includes('P1 - High')) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['priority:high']
+              });
+            } else if (body.includes('P2 - Medium')) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['priority:medium']
+              });
+            } else if (body.includes('P3 - Low')) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['priority:low']
+              });
+            }
+
+      - name: Label Security Issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const title = context.payload.issue.title.toLowerCase();
+            
+            // Check for security-related keywords
+            const securityKeywords = ['security', 'vulnerability', 'exploit', 'xss', 'sql injection', 'csrf'];
+            const hasSecurityKeyword = securityKeywords.some(keyword => 
+              title.includes(keyword) || body.toLowerCase().includes(keyword)
+            );
+            
+            if (hasSecurityKeyword) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['security']
+              });
+            }
+
+      - name: Label Accessibility Issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const title = context.payload.issue.title.toLowerCase();
+            
+            // Check for accessibility-related keywords
+            const a11yKeywords = ['accessibility', 'a11y', 'wcag', 'aria', 'screen reader', 'keyboard navigation'];
+            const hasA11yKeyword = a11yKeywords.some(keyword => 
+              title.includes(keyword) || body.toLowerCase().includes(keyword)
+            );
+            
+            if (hasA11yKeyword) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['accessibility']
+              });
+            }

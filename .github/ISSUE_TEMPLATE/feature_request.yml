@@ -1,0 +1,184 @@
+name: Feature Request
+description: Propose a new feature or enhancement for the Nexus landing page
+title: "[FEATURE] "
+labels: ["enhancement", "needs-review"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a feature! Please provide detailed information to help us evaluate and implement it.
+
+  - type: input
+    id: title
+    attributes:
+      label: Feature Title
+      description: A clear, concise title for this feature
+      placeholder: "Add dark mode toggle"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? Who is affected?
+      placeholder: "Users have requested the ability to view the site in dark mode for better readability at night..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe your proposed solution in detail
+      placeholder: |
+        Add a theme toggle button in the header that switches between light and dark modes.
+        - Button should persist preference in localStorage
+        - Should respect system preference by default
+        - All components should support dark mode
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: User Stories
+      description: Describe the feature from the user's perspective
+      placeholder: |
+        - As a user visiting at night, I want to enable dark mode so that I can read comfortably
+        - As a user with visual preferences, I want my theme choice to persist across sessions
+        - As a user, I want the site to respect my system-level dark mode preference
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature?
+      options:
+        - P0 - Critical - Required for launch
+        - P1 - High - Important for user experience
+        - P2 - Medium - Nice to have
+        - P3 - Low - Can be deferred
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component/Area
+      description: Which part of the application will this affect?
+      options:
+        - Navigation
+        - Hero Section
+        - Features Section
+        - Contact Form
+        - Footer
+        - Overall Theme/Styling
+        - Performance
+        - Accessibility
+        - SEO
+        - Analytics
+        - Infrastructure
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: effort-estimate
+    attributes:
+      label: Estimated Effort
+      description: Rough estimate of implementation effort
+      options:
+        - XS - Less than 1 day
+        - S - 1-2 days
+        - M - 3-5 days
+        - L - 1-2 weeks
+        - XL - More than 2 weeks
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Specific, testable conditions that must be met for this feature to be complete
+      placeholder: |
+        - [ ] Theme toggle button is visible in the header
+        - [ ] Clicking toggle switches between light and dark themes
+        - [ ] Theme preference persists in localStorage
+        - [ ] Site respects system preference on first visit
+        - [ ] All components render correctly in both themes
+        - [ ] No contrast/accessibility issues in either theme
+        - [ ] Smooth transition animation between themes
+        - [ ] Documentation updated to mention dark mode support
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-considerations
+    attributes:
+      label: Technical Considerations
+      description: Any technical details, dependencies, or implementation notes
+      placeholder: |
+        - Use next-themes package for theme management
+        - Update Tailwind config to support dark mode
+        - Ensure all Radix UI components support theming
+        - Consider performance impact of CSS variables
+    validations:
+      required: false
+
+  - type: textarea
+    id: design-mockups
+    attributes:
+      label: Design Mockups/References
+      description: Links to designs, mockups, or examples from other sites
+      placeholder: "Add links to Figma, screenshots, or reference sites"
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies/Blockers
+      description: What needs to happen before this can be implemented?
+      placeholder: |
+        - Depends on: #123 (design system overhaul)
+        - Blocked by: Waiting for design team mockups
+    validations:
+      required: false
+
+  - type: textarea
+    id: success-metrics
+    attributes:
+      label: Success Metrics
+      description: How will we measure if this feature is successful?
+      placeholder: |
+        - 30% of users enable dark mode within first month
+        - No increase in bounce rate after implementation
+        - Positive feedback in user surveys
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative approaches?
+      placeholder: "We could use browser's native color-scheme instead of a toggle..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have provided clear acceptance criteria
+          required: true
+        - label: I have considered the user impact and technical feasibility
+          required: true
