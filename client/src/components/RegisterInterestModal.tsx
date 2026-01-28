@@ -40,6 +40,11 @@ const initialFormData: FormData = {
  * but the actual subscription is processed asynchronously by MailerLite.
  */
 function submitToMailerLite(formData: FormData): boolean {
+  // Validate required fields (matching backend validation at server/index.ts:42-44)
+  if (!formData.email || !formData.firstName || !formData.lastName || !formData.company) {
+    return false;
+  }
+
   if (typeof window.ml === "function") {
     window.ml("subscribe", {
       email: formData.email,
@@ -105,16 +110,19 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
     } catch (error) {
       // Network error or other fetch failure - try MailerLite as fallback
       // TypeError is thrown for network failures (e.g., "Failed to fetch")
+      let displayError: unknown = error;
       if (error instanceof TypeError) {
         if (submitToMailerLite(formData)) {
           handleSuccessfulSubmission();
           return;
         }
+        // MailerLite not available after a network error - use a clear error message
+        displayError = new Error("Unable to submit registration. Please try again later.");
       }
 
-      console.error("Registration error:", error);
+      console.error("Registration error:", displayError);
       toast.error("Something went wrong", {
-        description: error instanceof Error ? error.message : "Please try again later.",
+        description: displayError instanceof Error ? displayError.message : "Please try again later.",
       });
     } finally {
       setIsSubmitting(false);
