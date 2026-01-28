@@ -5,9 +5,44 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 
+// Declare MailerLite's global function type
+declare global {
+  interface Window {
+    ml?: (action: string, ...args: unknown[]) => void;
+  }
+}
+
 interface RegisterInterestModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+}
+
+// Submit to MailerLite using their Universal JavaScript API (for static site deployment)
+async function submitToMailerLite(formData: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  company: string;
+  message: string;
+}): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (typeof window.ml === "function") {
+      window.ml("subscribe", {
+        email: formData.email,
+        fields: {
+          name: formData.firstName,
+          last_name: formData.lastName,
+          company: formData.company,
+          ...(formData.message && { notes: formData.message }),
+        },
+      });
+      // MailerLite Universal API doesn't provide direct callback, so we assume success
+      // if the function exists and was called
+      resolve(true);
+    } else {
+      resolve(false);
+    }
+  });
 }
 
 export default function RegisterInterestModal({ open, onOpenChange }: RegisterInterestModalProps) {
@@ -25,6 +60,7 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
     setIsSubmitting(true);
 
     try {
+      // Try the backend API first (works when server is running)
       const response = await fetch("/api/register", {
         method: "POST",
         headers: {
@@ -33,28 +69,65 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to submit registration");
+      if (response.ok) {
+        // Backend API worked
+        toast.success("Thank you for your interest!", {
+          description: "We'll be in touch soon with updates about Nexus.",
+        });
+        onOpenChange(false);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          company: "",
+          message: ""
+        });
+        return;
       }
 
-      // Success
-      toast.success("Thank you for your interest!", {
-        description: "We'll be in touch soon with updates about Nexus.",
-      });
+      // If we get a 405 (Method Not Allowed) or 404, we're likely on a static site
+      // Fall back to MailerLite Universal JS API
+      if (response.status === 405 || response.status === 404) {
+        const mlSuccess = await submitToMailerLite(formData);
+        if (mlSuccess) {
+          toast.success("Thank you for your interest!", {
+            description: "We'll be in touch soon with updates about Nexus.",
+          });
+          onOpenChange(false);
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            company: "",
+            message: ""
+          });
+          return;
+        }
+      }
 
-      // Close modal after successful submission
-      onOpenChange(false);
-
-      // Reset form
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        company: "",
-        message: ""
-      });
+      // If we get here, both methods failed
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || "Failed to submit registration");
     } catch (error) {
+      // Network error or other fetch failure - try MailerLite as fallback
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        const mlSuccess = await submitToMailerLite(formData);
+        if (mlSuccess) {
+          toast.success("Thank you for your interest!", {
+            description: "We'll be in touch soon with updates about Nexus.",
+          });
+          onOpenChange(false);
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            company: "",
+            message: ""
+          });
+          return;
+        }
+      }
+
       console.error("Registration error:", error);
       toast.error("Something went wrong", {
         description: error instanceof Error ? error.message : "Please try again later.",
