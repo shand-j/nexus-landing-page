@@ -171,7 +171,7 @@ Monitors and reminds about due dates:
 **Automated Actions:**
 - Posts reminder comments
 - Suggests next actions
-- Auto-closes stale issues after 7 days of inactivity
+- Flags stale issues for review
 
 ## GitHub Projects Configuration
 

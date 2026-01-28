@@ -35,7 +35,9 @@ jobs:
             for (const issue of issues) {
               const body = issue.body || '';
               
-              // Extract target due date from issue body
+              // Extract target due date from issue body (YYYY-MM-DD format)
+              // Matches: "Target Due Date: 2026-02-15" or "Target Due Date 2026-02-15"
+              // This works with both plain text and form-submitted issues
               const dueDateMatch = body.match(/Target Due Date[:\s]+(\d{4}-\d{2}-\d{2})/i);
               
               if (dueDateMatch) {
@@ -45,7 +47,8 @@ jobs:
                 // Check if due date is approaching (within 3 days) or overdue
                 if (daysUntilDue <= 3 && daysUntilDue >= 0) {
                   // Due soon
-                  const comment = `⏰ **Due Date Reminder**\n\nThis issue is due in **${daysUntilDue} day${daysUntilDue !== 1 ? 's' : ''}** (${dueDate.toISOString().split('T')[0]}).\n\nPlease ensure all acceptance criteria are met and the issue is ready for closure.`;
+                  const timeMessage = daysUntilDue === 0 ? 'today' : `in **${daysUntilDue} day${daysUntilDue !== 1 ? 's' : ''}**`;
+                  const comment = `⏰ **Due Date Reminder**\n\nThis issue is due ${timeMessage} (${dueDate.toISOString().split('T')[0]}).\n\nPlease ensure all acceptance criteria are met and the issue is ready for closure.`;
                   
                   await github.rest.issues.createComment({
                     issue_number: issue.number,
@@ -131,7 +134,7 @@ jobs:
                 );
                 
                 if (!hasStaleComment) {
-                  const comment = `🕒 **Stale Issue Notice**\n\nThis issue hasn't been updated in **${daysSinceUpdate} days**.\n\nPlease review and take action:\n- If still relevant, add a comment with an update\n- If complete, close the issue\n- If no longer needed, close with explanation\n\nThis issue will be automatically closed in 7 days if there is no activity.`;
+                  const comment = `🕒 **Stale Issue Notice**\n\nThis issue hasn't been updated in **${daysSinceUpdate} days**.\n\nPlease review and take action:\n- If still relevant, add a comment with an update\n- If complete, close the issue\n- If no longer needed, close with explanation\n\nIssues may be closed if they remain inactive.`;
                   
                   await github.rest.issues.createComment({
                     issue_number: issue.number,
