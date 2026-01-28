@@ -11,6 +11,9 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
 
+  // Parse JSON request bodies
+  app.use(express.json());
+
   // Redirect HTTP to HTTPS in production
   if (process.env.NODE_ENV === "production") {
     app.use((req, res, next) => {
@@ -28,6 +31,58 @@ async function startServer() {
     res.setHeader("X-Frame-Options", "SAMEORIGIN");
     res.setHeader("X-XSS-Protection", "1; mode=block");
     next();
+  });
+
+  // API endpoint for MailerLite subscriber registration
+  app.post("/api/register", async (req, res) => {
+    try {
+      const { email, firstName, lastName, company, message } = req.body;
+
+      // Validate required fields
+      if (!email || !firstName || !lastName || !company) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      const apiKey = process.env.MAILERLITE_API_KEY;
+      if (!apiKey) {
+        console.error("MAILERLITE_API_KEY environment variable is not set");
+        return res.status(500).json({ error: "Server configuration error" });
+      }
+
+      // Submit to MailerLite API
+      const response = await fetch("https://connect.mailerlite.com/api/subscribers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          email,
+          fields: {
+            name: firstName,
+            last_name: lastName,
+            company,
+            ...(message && { notes: message }),
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error("MailerLite API error:", errorData);
+        return res.status(response.status).json({
+          error: "Failed to register interest",
+          details: errorData.message || "Unknown error",
+        });
+      }
+
+      const data = await response.json();
+      return res.status(200).json({ success: true, data });
+    } catch (error) {
+      console.error("Registration error:", error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
   });
 
   // Serve static files from dist/public in production
