@@ -552,7 +552,7 @@ export default function Home() {
             transition={{ delay: 0.3 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12"
           >
-            Schedule a personalized demo to see how Nexus can transform your AI strategy.
+            Register your interest to be notified when Nexus launches and get early access.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
