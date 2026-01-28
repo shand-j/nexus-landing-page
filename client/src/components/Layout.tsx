@@ -1,14 +1,16 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { Menu, Linkedin, Twitter, Github, Mail } from "lucide-react";
+import { Menu, Linkedin, Mail } from "lucide-react";
 import { useState } from "react";
+import RegisterInterestModal from "@/components/RegisterInterestModal";
 
 // Get base path for assets
 const basePath = import.meta.env.BASE_URL;
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const navItems = [
     { name: "Product", href: "/product/govern" },
@@ -48,11 +50,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" className="text-sm font-medium">
-              Log in
-            </Button>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
-              Book a Demo
+            <Button 
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
+              onClick={() => setIsRegisterModalOpen(true)}
+            >
+              Register Interest
             </Button>
           </div>
 
@@ -77,11 +79,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   </Link>
                 ))}
                 <div className="flex flex-col gap-4 mt-4">
-                  <Button variant="outline" className="w-full justify-center">
-                    Log in
-                  </Button>
-                  <Button className="w-full justify-center bg-primary text-primary-foreground hover:bg-primary/90">
-                    Book a Demo
+                  <Button 
+                    className="w-full justify-center bg-primary text-primary-foreground hover:bg-primary/90"
+                    onClick={() => {
+                      setIsOpen(false);
+                      setIsRegisterModalOpen(true);
+                    }}
+                  >
+                    Register Interest
                   </Button>
                 </div>
               </nav>
@@ -124,31 +129,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="flex gap-4 pt-4">
               <a 
-                href="https://www.linkedin.com/company/nexus-ai" 
+                href="https://www.linkedin.com/company/get-nexus" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="h-9 w-9 flex items-center justify-center rounded-lg bg-accent/50 hover:bg-accent transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-4 w-4" />
-              </a>
-              <a 
-                href="https://twitter.com/nexusai" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="h-9 w-9 flex items-center justify-center rounded-lg bg-accent/50 hover:bg-accent transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-4 w-4" />
-              </a>
-              <a 
-                href="https://github.com/nexus-ai" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="h-9 w-9 flex items-center justify-center rounded-lg bg-accent/50 hover:bg-accent transition-colors"
-                aria-label="GitHub"
-              >
-                <Github className="h-4 w-4" />
               </a>
             </div>
           </div>
@@ -194,6 +181,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </footer>
+
+      {/* Register Interest Modal */}
+      <RegisterInterestModal 
+        open={isRegisterModalOpen}
+        onOpenChange={setIsRegisterModalOpen}
+      />
     </div>
   );
 }

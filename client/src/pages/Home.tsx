@@ -4,11 +4,13 @@ import { Shield, BarChart3, CheckCircle2, Network, ArrowRight, AlertTriangle, Tr
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
 import { useRef, useState } from "react";
 import { Link } from "wouter";
+import RegisterInterestModal from "@/components/RegisterInterestModal";
 
 // Get base path for assets
 const basePath = import.meta.env.BASE_URL;
 
 export default function Home() {
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -143,10 +145,13 @@ export default function Home() {
                 See Enterprise Solutions <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-sm">
-              <Link href="/company/contact">
-                Book a Demo
-              </Link>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-sm"
+              onClick={() => setIsRegisterModalOpen(true)}
+            >
+              Register Interest
             </Button>
           </motion.div>
 
@@ -557,13 +562,11 @@ export default function Home() {
             className="flex flex-wrap justify-center gap-4"
           >
             <Button 
-              asChild
               size="lg" 
               className="h-16 px-12 text-xl bg-primary text-primary-foreground hover:bg-primary/90 rounded-full shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transition-all duration-300"
+              onClick={() => setIsRegisterModalOpen(true)}
             >
-              <Link href="/company/contact">
-                Book a Demo <ArrowRight className="ml-2 h-6 w-6" />
-              </Link>
+              Register Interest <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
             <Button 
               asChild
@@ -578,6 +581,12 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Register Interest Modal */}
+      <RegisterInterestModal 
+        open={isRegisterModalOpen}
+        onOpenChange={setIsRegisterModalOpen}
+      />
     </Layout>
   );
 }
