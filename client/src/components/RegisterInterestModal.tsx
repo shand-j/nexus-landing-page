@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { toast } from "sonner";
 
 // Declare MailerLite's global function type
@@ -17,43 +17,56 @@ interface RegisterInterestModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-// Submit to MailerLite using their Universal JavaScript API (for static site deployment)
-async function submitToMailerLite(formData: {
+interface FormData {
   firstName: string;
   lastName: string;
   email: string;
   company: string;
   message: string;
-}): Promise<boolean> {
-  return new Promise((resolve) => {
-    if (typeof window.ml === "function") {
-      window.ml("subscribe", {
-        email: formData.email,
-        fields: {
-          name: formData.firstName,
-          last_name: formData.lastName,
-          company: formData.company,
-          ...(formData.message && { notes: formData.message }),
-        },
-      });
-      // MailerLite Universal API doesn't provide direct callback, so we assume success
-      // if the function exists and was called
-      resolve(true);
-    } else {
-      resolve(false);
-    }
-  });
+}
+
+const initialFormData: FormData = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  company: "",
+  message: ""
+};
+
+/**
+ * Submit to MailerLite using their Universal JavaScript API (for static site deployment).
+ * Note: The MailerLite Universal API is fire-and-forget and doesn't provide direct confirmation
+ * of successful subscription. This function returns true if the API was available and called,
+ * but the actual subscription is processed asynchronously by MailerLite.
+ */
+function submitToMailerLite(formData: FormData): boolean {
+  if (typeof window.ml === "function") {
+    window.ml("subscribe", {
+      email: formData.email,
+      fields: {
+        name: formData.firstName,
+        last_name: formData.lastName,
+        company: formData.company,
+        ...(formData.message && { notes: formData.message }),
+      },
+    });
+    return true;
+  }
+  return false;
 }
 
 export default function RegisterInterestModal({ open, onOpenChange }: RegisterInterestModalProps) {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    company: "",
-    message: ""
-  });
+  const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Helper function to handle successful submission
+  const handleSuccessfulSubmission = useCallback(() => {
+    toast.success("Thank you for your interest!", {
+      description: "We'll be in touch soon with updates about Nexus.",
+    });
+    onOpenChange(false);
+    setFormData(initialFormData);
+  }, [onOpenChange]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,59 +84,30 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
 
       if (response.ok) {
         // Backend API worked
-        toast.success("Thank you for your interest!", {
-          description: "We'll be in touch soon with updates about Nexus.",
-        });
-        onOpenChange(false);
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          company: "",
-          message: ""
-        });
+        handleSuccessfulSubmission();
         return;
       }
 
       // If we get a 405 (Method Not Allowed) or 404, we're likely on a static site
       // Fall back to MailerLite Universal JS API
       if (response.status === 405 || response.status === 404) {
-        const mlSuccess = await submitToMailerLite(formData);
-        if (mlSuccess) {
-          toast.success("Thank you for your interest!", {
-            description: "We'll be in touch soon with updates about Nexus.",
-          });
-          onOpenChange(false);
-          setFormData({
-            firstName: "",
-            lastName: "",
-            email: "",
-            company: "",
-            message: ""
-          });
+        if (submitToMailerLite(formData)) {
+          handleSuccessfulSubmission();
           return;
         }
+        // MailerLite not available, throw a clear error
+        throw new Error("Unable to submit registration. Please try again later.");
       }
 
-      // If we get here, both methods failed
+      // Other API error - parse the error response
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.error || "Failed to submit registration");
     } catch (error) {
       // Network error or other fetch failure - try MailerLite as fallback
-      if (error instanceof TypeError && error.message.includes("fetch")) {
-        const mlSuccess = await submitToMailerLite(formData);
-        if (mlSuccess) {
-          toast.success("Thank you for your interest!", {
-            description: "We'll be in touch soon with updates about Nexus.",
-          });
-          onOpenChange(false);
-          setFormData({
-            firstName: "",
-            lastName: "",
-            email: "",
-            company: "",
-            message: ""
-          });
+      // TypeError is thrown for network failures (e.g., "Failed to fetch")
+      if (error instanceof TypeError) {
+        if (submitToMailerLite(formData)) {
+          handleSuccessfulSubmission();
           return;
         }
       }
