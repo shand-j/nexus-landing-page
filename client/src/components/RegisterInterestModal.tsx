@@ -138,9 +138,9 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-mono">Join the Alpha Program</DialogTitle>
+          <DialogTitle className="text-2xl font-mono">Request a Concierge Pilot</DialogTitle>
           <DialogDescription>
-            Apply to be one of 1-3 companies testing Nexus. Get free access, priority support, and help shape the product roadmap. Book a discovery call to discuss your AI challenges.
+            Join our 6–8 week guided onboarding program. Get hands-on support, full audit trail, and PII detection included. Limited slots available.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -213,7 +213,7 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
               Cancel
             </Button>
             <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Apply for Alpha"}
+              {isSubmitting ? "Submitting..." : "Request Pilot"}
             </Button>
           </div>
         </form>
