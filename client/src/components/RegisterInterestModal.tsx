@@ -93,25 +93,23 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
         return;
       }
 
-      // If we get a 405 (Method Not Allowed) or 404, we're likely on a static site
-      // Fall back to MailerLite Universal JS API
-      if (response.status === 405 || response.status === 404) {
+      // Check if this is a server unavailability scenario (static site deployment).
+      // 405: Method Not Allowed (static sites don't support POST)
+      // 404: Endpoint not found (static sites don't have /api/register)
+      // 5xx: Server errors (backend might be down)
+      // In these cases, fall back to MailerLite Universal JS API.
+      const isServerUnavailable = response.status === 405 || response.status === 404 || response.status >= 500;
+      
+      if (isServerUnavailable) {
         if (submitToMailerLite(formData)) {
           handleSuccessfulSubmission();
           return;
         }
-        // MailerLite not available, throw a clear error
+        // MailerLite not available either
         throw new Error("Unable to submit registration. Please try again later.");
       }
-      // Success
-      toast.success("Application Received!", {
-        description: "We'll review your application and reach out within 2 business days to schedule a discovery call.",
-      });
 
-      // Close modal after successful submission
-      onOpenChange(false);
-
-      // Other API error - parse the error response
+      // For client errors (4xx except 405/404), show the backend's error message
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.error || "Failed to submit registration");
     } catch (error) {
