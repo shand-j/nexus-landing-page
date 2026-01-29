@@ -137,10 +137,9 @@ export default function Enterprise() {
               ))}
             </div>
           </motion.div>
-            </div>
-          </motion.div>
 
-                      <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-2xl p-12 text-center">
+          {/* Final CTA */}
+          <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-2xl p-12 text-center">
             <h2 className="text-3xl font-mono font-bold mb-6">Ready to Join the Alpha Program?</h2>
             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
               Limited to 1-3 companies. Apply now to get free access, priority support, and help shape the future of AI adoption.
