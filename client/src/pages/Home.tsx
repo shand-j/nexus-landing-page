@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Shield, BarChart3, CheckCircle2, Network, ArrowRight, AlertTriangle, TrendingUp, Zap, Upload, Play, Link2, FileText, Clock } from "lucide-react";
+import { Shield, BarChart3, CheckCircle2, ArrowRight, AlertTriangle, TrendingUp, Zap, Upload, Play, Link2, FileText, Clock } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState } from "react";
 import RegisterInterestModal from "@/components/RegisterInterestModal";
@@ -452,13 +452,6 @@ export default function Home() {
                   <p className="text-muted-foreground leading-relaxed">{step.desc}</p>
                 </motion.div>
               ))}
-            </div>
-
-            {/* Connecting arrows for desktop */}
-            <div className="hidden md:flex justify-center items-center gap-4 -mt-8 mb-8">
-              <div className="flex items-center text-muted-foreground">
-                <ArrowRight className="h-6 w-6" />
-              </div>
             </div>
           </div>
         </div>
