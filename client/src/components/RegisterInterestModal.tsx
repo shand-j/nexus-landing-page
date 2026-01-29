@@ -93,27 +93,17 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
         return;
       }
 
-      // If we get a 405 (Method Not Allowed) or 404, we're likely on a static site
-      // Fall back to MailerLite Universal JS API
-      if (response.status === 405 || response.status === 404) {
-        if (submitToMailerLite(formData)) {
-          handleSuccessfulSubmission();
-          return;
-        }
-        // MailerLite not available, throw a clear error
-        throw new Error("Unable to submit registration. Please try again later.");
+      // If the backend API returned an error, try MailerLite as fallback.
+      // Common cases: 405 (Method Not Allowed) on static sites, 404, or server errors.
+      // This approach is more robust than checking specific status codes.
+      if (submitToMailerLite(formData)) {
+        handleSuccessfulSubmission();
+        return;
       }
-      // Success
-      toast.success("Application Received!", {
-        description: "We'll review your application and reach out within 2 business days to schedule a discovery call.",
-      });
 
-      // Close modal after successful submission
-      onOpenChange(false);
-
-      // Other API error - parse the error response
+      // MailerLite not available either - parse the error response for details
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || "Failed to submit registration");
+      throw new Error(errorData.error || "Unable to submit registration. Please try again later.");
     } catch (error) {
       // Network error or other fetch failure - try MailerLite as fallback
       // TypeError is thrown for network failures (e.g., "Failed to fetch")
