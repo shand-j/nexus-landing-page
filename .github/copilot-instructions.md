@@ -9,7 +9,7 @@
 - **Build Tool**: Vite 7
 - **Styling**: TailwindCSS v4 with custom theme
 - **UI Components**: Radix UI primitives (shadcn/ui patterns)
-- **Routing**: Wouter (lightweight client-side router)
+- **Routing**: Wouter 3.7.1 (lightweight client-side router, with custom patch applied)
 - **Animations**: Framer Motion
 - **Forms**: React Hook Form with Zod validation
 - **Icons**: Lucide React
@@ -79,9 +79,9 @@ nexus-landing-page/
 - **Dark theme by default** (configurable in `App.tsx`)
 - Design inspired by "Cyber-Corporate Brutalism" aesthetic
 - Color palette:
-  - Midnight Navy background (#0B1221)
-  - Electric Violet accent (#6A0DAD)
-  - Cyber Teal accent (#00CED1)
+  - Deep Void background (#050A14)
+  - Electric Violet accent (#8B5CF6)
+  - Cyber Teal accent (#06B6D4)
   - Subtle grid overlays
 - Typography:
   - Headers: Space Grotesk (monospace feel)
