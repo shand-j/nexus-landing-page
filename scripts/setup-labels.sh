@@ -8,7 +8,15 @@ echo "🏷️  Creating GitHub labels for Nexus MVP milestone..."
 echo ""
 
 # Repository (automatically detected)
-REPO=$(git config --get remote.origin.url | sed 's/.*github.com[:/]\(.*\)\.git/\1/')
+REPO=$(git config --get remote.origin.url | sed -E 's#.*github.com[:/]##' | sed 's/\.git$//')
+
+# Verify repository was detected
+if [ -z "$REPO" ]; then
+  echo "❌ Error: Could not detect repository from git remote."
+  echo "Please ensure you're in a git repository with a GitHub remote configured."
+  exit 1
+fi
+
 echo "📦 Repository: $REPO"
 echo ""
 
