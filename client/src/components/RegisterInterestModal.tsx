@@ -39,8 +39,8 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
       }
 
       // Success
-      toast.success("Thank you for your interest!", {
-        description: "We'll be in touch soon with updates about Nexus.",
+      toast.success("Application Received!", {
+        description: "We'll review your application and reach out within 2 business days to schedule a discovery call.",
       });
 
       // Close modal after successful submission
@@ -68,9 +68,9 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-mono">Register Your Interest</DialogTitle>
+          <DialogTitle className="text-2xl font-mono">Join the Alpha Program</DialogTitle>
           <DialogDescription>
-            We're building the future of AI governance. Join the waitlist to be notified when Nexus launches.
+            Apply to be one of 1-3 companies testing Nexus. Get free access, priority support, and help shape the product roadmap. Book a discovery call to discuss your AI challenges.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -127,14 +127,15 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
           </div>
           <div className="space-y-2">
             <label htmlFor="message" className="text-sm font-medium">
-              Tell us about your AI needs (optional)
+              Tell us about your AI adoption challenges *
             </label>
             <Textarea
               id="message"
-              placeholder="What challenges are you facing with AI governance?"
+              placeholder="What are your biggest challenges moving from AI experimentation to production?"
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               rows={3}
+              required
             />
           </div>
           <div className="flex justify-end gap-3 pt-4">
@@ -142,7 +143,7 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
               Cancel
             </Button>
             <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit"}
+              {isSubmitting ? "Submitting..." : "Apply for Alpha"}
             </Button>
           </div>
         </form>

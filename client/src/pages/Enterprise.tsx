@@ -1,29 +1,33 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Globe, Server, Lock, Brain, Zap, LineChart, Users } from "lucide-react";
+import { ArrowRight, ShieldCheck, Brain, Zap, LineChart, Users, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import RegisterInterestModal from "@/components/RegisterInterestModal";
 
 export default function Enterprise() {
-  const competitiveAdvantages = [
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+
+  const mvpCapabilities = [
     {
       icon: Brain,
-      title: "Learning-Capable Systems",
-      desc: "Persistent, adaptive AI agents that continuously improve over time—not brittle, one-size-fits-all tools that break at the first edge case."
+      title: "Centralized AI Access",
+      desc: "Single dashboard for your team to access pre-integrated AI tools. No more scattered subscriptions or fragmented workflows."
     },
     {
       icon: Zap,
-      title: "Deep Workflow Integration",
-      desc: "Tailored solutions for process-specific needs. Seamless alignment with existing enterprise software like Salesforce and Microsoft Dynamics."
+      title: "Usage Tracking",
+      desc: "Real-time visibility into how teams use AI. Track adoption rates, time saved, and productivity gains across departments."
     },
     {
       icon: LineChart,
-      title: "Proven ROI Metrics",
-      desc: "Built-in dashboards to track productivity gains, cost savings, and operational impact with real-time measurement and attribution."
+      title: "ROI Measurement",
+      desc: "Built-in calculator to quantify AI's business impact. Turn usage data into clear ROI metrics for leadership."
     },
     {
       icon: Users,
-      title: "Human-Centric Design",
-      desc: "Address cultural resistance with change management frameworks, employee training programs, and intuitive interfaces."
+      title: "Team Enablement",
+      desc: "On-demand training resources to upskill employees. Build internal AI capabilities with best practices and guides."
     }
   ];
 
@@ -37,10 +41,10 @@ export default function Enterprise() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-foreground text-sm font-mono mb-6"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-6"
             >
-              <ShieldCheck className="h-4 w-4" />
-              <span>ENTERPRISE GRADE</span>
+              <Sparkles className="h-4 w-4" />
+              <span>ALPHA PROGRAM FOR SMBs</span>
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -48,7 +52,7 @@ export default function Enterprise() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-5xl md:text-7xl font-mono font-bold mb-6 tracking-tight"
             >
-              BUILT FOR SCALE.<br />SECURED FOR BUSINESS.
+              ACCELERATE YOUR AI JOURNEY
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -56,63 +60,30 @@ export default function Enterprise() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl text-muted-foreground leading-relaxed"
             >
-              The command center for AI governance, ROI tracking, and deployment scaling. Deploy anywhere, govern everywhere.
+              Join our alpha program to transform how your organization adopts AI. Move from fragmented experiments to structured, measurable production use.
             </motion.p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative"
-            >
-              <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full opacity-20"></div>
-              <img
-                src="/images/nexus_enterprise_security_architecture.png"
-                alt="Enterprise Architecture"
-                className="relative rounded-xl border border-border shadow-2xl"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
-            >
-              {[
-                {
-                  icon: Globe,
-                  title: "Global Infrastructure",
-                  desc: "Multi-region deployment options to ensure data residency compliance and low-latency performance worldwide."
-                },
-                {
-                  icon: Server,
-                  title: "Private Cloud & On-Prem",
-                  desc: "Deploy Nexus within your own VPC or on-premise data centers for complete control over your data and models."
-                },
-                {
-                  icon: Lock,
-                  title: "SSO & SCIM",
-                  desc: "Seamless integration with Okta, Azure AD, and other identity providers for automated user provisioning and access control."
-                }
-              ].map((feature, i) => (
-                <div key={i} className="flex gap-6">
-                  <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 border border-accent/20">
-                    <feature.icon className="h-6 w-6 text-foreground" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-mono font-bold mb-2">{feature.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
-                  </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            {mvpCapabilities.map((capability, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-colors"
+              >
+                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
+                  <capability.icon className="h-6 w-6 text-primary" />
                 </div>
-              ))}
-            </motion.div>
+                <h3 className="text-lg font-mono font-bold mb-2">{capability.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{capability.desc}</p>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Competitive Advantage Section */}
+          {/* Alpha Program Benefits */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -120,49 +91,83 @@ export default function Enterprise() {
             className="mb-20"
           >
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-mono font-bold mb-4">WHY NEXUS WINS</h2>
+              <h2 className="text-3xl md:text-4xl font-mono font-bold mb-4">WHAT YOU GET IN THE ALPHA</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Unlike generic AI tools, we differentiate through deep integration and measurable outcomes.
+                Be among the first to test Nexus and influence the product roadmap.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {competitiveAdvantages.map((advantage, i) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[
+                {
+                  title: "Free Platform Access",
+                  desc: "Full access to all MVP features for 6-8 weeks at no cost. No credit card required."
+                },
+                {
+                  title: "Priority Support",
+                  desc: "Weekly check-ins with our team. Direct line to engineering for any issues or questions."
+                },
+                {
+                  title: "Product Influence",
+                  desc: "Your feedback directly shapes features and priorities. Help build the product you need."
+                },
+                {
+                  title: "Fast Setup",
+                  desc: "Get up and running in less than 7 days. Simple onboarding process with guided setup."
+                },
+                {
+                  title: "No Commitment",
+                  desc: "No long-term contracts or obligations. Test risk-free during the alpha period."
+                },
+                {
+                  title: "Early Adopter Perks",
+                  desc: "Exclusive pricing and features when we launch. Position yourself as an AI leader."
+                }
+              ].map((benefit, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-colors"
+                  className="bg-card border border-border rounded-xl p-6"
                 >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
-                      <advantage.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-mono font-bold">{advantage.title}</h3>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed">{advantage.desc}</p>
+                  <h3 className="text-lg font-mono font-bold mb-2">{benefit.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{benefit.desc}</p>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          <div className="bg-card border border-border p-12 rounded-2xl text-center">
-            <h2 className="text-3xl font-mono font-bold mb-6">Secure your future.</h2>
+          {/* Final CTA */}
+          <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-2xl p-12 text-center">
+            <h2 className="text-3xl font-mono font-bold mb-6">Ready to Join the Alpha Program?</h2>
             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Contact our enterprise sales team to discuss custom deployment options and volume pricing.
+              Limited to 1-3 companies. Apply now to get free access, priority support, and help shape the future of AI adoption.
             </p>
             <div className="flex justify-center gap-4">
-              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                Contact Sales <ArrowRight className="ml-2 h-4 w-4" />
+              <Button 
+                size="lg" 
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+                onClick={() => setIsRegisterModalOpen(true)}
+              >
+                Apply for Alpha Access <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline">
-                Download Security Whitepaper
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={() => setIsRegisterModalOpen(true)}
+              >
+                Book Discovery Call
               </Button>
             </div>
           </div>
         </div>
       </div>
+
+      <RegisterInterestModal 
+        open={isRegisterModalOpen}
+        onOpenChange={setIsRegisterModalOpen}
+      />
     </Layout>
   );
 }
