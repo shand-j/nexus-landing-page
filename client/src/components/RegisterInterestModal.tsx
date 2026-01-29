@@ -93,17 +93,25 @@ export default function RegisterInterestModal({ open, onOpenChange }: RegisterIn
         return;
       }
 
-      // If the backend API returned an error, try MailerLite as fallback.
-      // Common cases: 405 (Method Not Allowed) on static sites, 404, or server errors.
-      // This approach is more robust than checking specific status codes.
-      if (submitToMailerLite(formData)) {
-        handleSuccessfulSubmission();
-        return;
+      // Check if this is a server unavailability scenario (static site deployment).
+      // 405: Method Not Allowed (static sites don't support POST)
+      // 404: Endpoint not found (static sites don't have /api/register)
+      // 5xx: Server errors (backend might be down)
+      // In these cases, fall back to MailerLite Universal JS API.
+      const isServerUnavailable = response.status === 405 || response.status === 404 || response.status >= 500;
+      
+      if (isServerUnavailable) {
+        if (submitToMailerLite(formData)) {
+          handleSuccessfulSubmission();
+          return;
+        }
+        // MailerLite not available either
+        throw new Error("Unable to submit registration. Please try again later.");
       }
 
-      // MailerLite not available either - parse the error response for details
+      // For client errors (4xx except 405/404), show the backend's error message
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || "Unable to submit registration. Please try again later.");
+      throw new Error(errorData.error || "Failed to submit registration");
     } catch (error) {
       // Network error or other fetch failure - try MailerLite as fallback
       // TypeError is thrown for network failures (e.g., "Failed to fetch")
