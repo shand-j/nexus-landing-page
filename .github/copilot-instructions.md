@@ -105,27 +105,39 @@ nexus-landing-page/
 
 ### Component Structure
 ```typescript
-import { ComponentProps } from "react";
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-interface MyComponentProps {
-  title: string;
-  variant?: "default" | "outline";
-  children?: React.ReactNode;
-}
+const componentVariants = cva(
+  "base-classes",
+  {
+    variants: {
+      variant: {
+        default: "default-classes",
+        outline: "outline-classes",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
 
-export default function MyComponent({ 
-  title, 
-  variant = "default", 
-  children 
-}: MyComponentProps) {
+function MyComponent({
+  className,
+  variant,
+  ...props
+}: React.ComponentProps<"div"> & VariantProps<typeof componentVariants>) {
   return (
-    <div className={cn("base-classes", variant === "outline" && "outline-classes")}>
-      <h2>{title}</h2>
-      {children}
-    </div>
+    <div
+      className={cn(componentVariants({ variant }), className)}
+      {...props}
+    />
   );
 }
+
+export { MyComponent, componentVariants };
 ```
 
 ### Styling Guidelines
