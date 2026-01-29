@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/shand-j/nexus-landing-page/blob/main/MILESTONE_MVP.md
+    about: View the detailed MVP milestone documentation
+  - name: 💬 Discussions
+    url: https://github.com/shand-j/nexus-landing-page/discussions
+    about: Ask questions and discuss ideas with the community
