@@ -1,9 +1,8 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Shield, BarChart3, CheckCircle2, Network, ArrowRight, AlertTriangle, TrendingUp, Zap } from "lucide-react";
-import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState } from "react";
-import { Link } from "wouter";
 import RegisterInterestModal from "@/components/RegisterInterestModal";
 
 // Get base path for assets
@@ -29,38 +28,6 @@ export default function Home() {
   const scale = useTransform(smoothScroll, [0, 0.4], [1, 1.5]); // Scale UP
   const y = useTransform(smoothScroll, [0, 0.4], [0, 100]); // Move DOWN slightly as we fly "over" it
   const blur = useTransform(smoothScroll, [0, 0.4], ["0px", "10px"]); // Blur as it gets closer
-
-  // Scrollytelling section refs
-  const scrollSectionRef = useRef(null);
-  const { scrollYProgress: featureScrollProgress } = useScroll({
-    target: scrollSectionRef,
-    offset: ["start start", "end end"]
-  });
-
-  // Dynamic background color based on scroll position
-  const [activeColor, setActiveColor] = useState("rgba(6,182,212,0.1)"); // Default Teal
-  const [activeImage, setActiveImage] = useState(`${basePath}images/nexus_govern_3d.png`);
-  
-  useMotionValueEvent(featureScrollProgress, "change", (latest) => {
-    if (latest < 0.25) {
-      setActiveColor("rgba(6,182,212,0.1)"); // Teal (Govern)
-      setActiveImage(`${basePath}images/nexus_govern_3d.png`);
-    } else if (latest < 0.5) {
-      setActiveColor("rgba(168,85,247,0.1)"); // Violet (Guide)
-      setActiveImage(`${basePath}images/nexus_guide_3d.png`);
-    } else if (latest < 0.75) {
-      setActiveColor("rgba(74,222,128,0.1)"); // Green (Validate)
-      setActiveImage(`${basePath}images/nexus_validate_3d.png`);
-    } else {
-      setActiveColor("rgba(96,165,250,0.1)"); // Blue (Measure)
-      setActiveImage(`${basePath}images/nexus_measure_3d.png`);
-    }
-  });
-
-  // Transform for the sticky image - Holographic Zoom Effect
-  const featureImageScale = useTransform(featureScrollProgress, [0, 0.2, 0.4, 0.6, 0.8, 1], [1, 1.1, 1, 1.1, 1, 1.1]);
-  const featureImageRotate = useTransform(featureScrollProgress, [0, 1], [0, 5]);
-  const featureImageOpacity = useTransform(featureScrollProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
 
   return (
     <Layout>
@@ -110,7 +77,7 @@ export default function Home() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            SYSTEM STATUS: OPERATIONAL
+            NOW ACCEPTING ALPHA TESTERS
           </motion.div>
           
           <motion.h1 
@@ -119,8 +86,8 @@ export default function Home() {
             transition={{ duration: 1, ease: "circOut" }}
             className="text-5xl md:text-8xl font-mono font-bold tracking-tighter leading-tight mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white/90 to-white/50 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
           >
-            <span className="text-primary text-2xl md:text-3xl block mb-4 font-normal tracking-[0.2em] uppercase">THE AI GOVERNANCE PLATFORM</span>
-            TURN AI PILOTS INTO PRODUCTION AT ENTERPRISE SCALE
+            <span className="text-primary text-2xl md:text-3xl block mb-4 font-normal tracking-[0.2em] uppercase">ACCELERATE AI ADOPTION</span>
+            FROM EXPERIMENTATION TO PRODUCTION-READY AI
           </motion.h1>
           
           <motion.p 
@@ -129,9 +96,9 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed mb-10"
           >
-            The only platform that connects AI visibility, security, quality assurance, and ROI measurement in one unified command center.
+            A centralized platform that simplifies AI adoption for SMBs and mid-market companies. Access tools, track usage, measure ROI, and empower your teams—all in one place.
             <br />
-            <span className="text-primary font-semibold text-2xl md:text-3xl mt-2 block">Govern. Guide. Validate. Measure.</span>
+            <span className="text-primary font-semibold text-2xl md:text-3xl mt-2 block">Simple. Measurable. Scalable.</span>
           </motion.p>
           
           <motion.div 
@@ -140,10 +107,12 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
             className="flex flex-wrap justify-center gap-4 mb-12"
           >
-            <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300">
-              <Link href="/enterprise">
-                See Enterprise Solutions <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+            <Button 
+              size="lg" 
+              className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300"
+              onClick={() => setIsRegisterModalOpen(true)}
+            >
+              Join Alpha Program <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button 
               size="lg" 
@@ -151,7 +120,7 @@ export default function Home() {
               className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-sm"
               onClick={() => setIsRegisterModalOpen(true)}
             >
-              Register Interest
+              Book Discovery Call
             </Button>
           </motion.div>
 
@@ -164,19 +133,19 @@ export default function Home() {
           >
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-400" />
-              <span>SOC 2 Type II</span>
+              <span>Free Alpha Access</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-400" />
-              <span>GDPR Compliant</span>
+              <span>No Long-Term Commitment</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-400" />
-              <span>ISO 27001 Certified</span>
+              <span>Priority Support</span>
             </div>
             <div className="flex items-center gap-2">
               <Shield className="h-5 w-5 text-primary" />
-              <span>Enterprise-Grade Security</span>
+              <span>Shape the Product</span>
             </div>
           </motion.div>
         </motion.div>
@@ -215,14 +184,14 @@ export default function Home() {
         <div className="container flex items-center justify-between py-6">
           <div className="flex gap-20 animate-marquee whitespace-nowrap">
             {[
-              { label: "Active Nodes", value: "8,492" },
-              { label: "Threats Blocked", value: "142" },
-              { label: "AI Efficiency", value: "+340%" },
-              { label: "Data Processed", value: "4.2 PB" },
-              { label: "Uptime", value: "99.99%" },
-              { label: "Active Nodes", value: "8,492" },
-              { label: "Threats Blocked", value: "142" },
-              { label: "AI Efficiency", value: "+340%" },
+              { label: "Alpha Spots", value: "3" },
+              { label: "Program Duration", value: "6-8 Weeks" },
+              { label: "Avg. Time Saved", value: "15%" },
+              { label: "Setup Time", value: "<7 Days" },
+              { label: "Weekly Support", value: "Included" },
+              { label: "Alpha Spots", value: "3" },
+              { label: "Program Duration", value: "6-8 Weeks" },
+              { label: "Avg. Time Saved", value: "15%" },
             ].map((stat, i) => (
               <div key={i} className="flex items-center gap-4">
                 <div className="h-2 w-2 rounded-full bg-secondary animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>
@@ -234,7 +203,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* The GenAI Divide - Problem Statement */}
+      {/* The AI Adoption Challenge - Problem Statement */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-destructive/5"></div>
         <div className="container relative z-10">
@@ -247,38 +216,33 @@ export default function Home() {
             >
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-destructive/10 border border-destructive/20 text-destructive text-sm font-mono mb-6">
                 <AlertTriangle className="h-4 w-4" />
-                <span>THE GENAI DIVIDE</span>
+                <span>THE AI ADOPTION GAP</span>
               </div>
               <h2 className="text-4xl md:text-6xl font-mono font-bold mb-6 tracking-tight">
-                95% OF AI PILOTS FAIL.
+                TEAMS ARE EXPERIMENTING. NOT ADOPTING.
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Despite $30–40 billion in enterprise AI investments, most organizations are stuck in experimentation. 
-                Only <span className="text-foreground font-semibold">5%</span> achieve transformative adoption.
+                SMBs and mid-market companies struggle to move AI from ad-hoc experiments to structured, production-ready workflows. 
+                The result? <span className="text-foreground font-semibold">Low adoption, fragmented tools, and no visibility into ROI.</span>
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 {
                   icon: AlertTriangle,
-                  title: "Brittle Workflows",
-                  desc: "Tools that fail to adapt to context and business-specific requirements."
-                },
-                {
-                  icon: Zap,
-                  title: "Lack of Integration",
-                  desc: "AI tools disconnected from existing systems and enterprise processes."
+                  title: "Low AI Adoption",
+                  desc: "Employees lack easy access to AI tools and training, leading to siloed experimentation."
                 },
                 {
                   icon: BarChart3,
                   title: "No ROI Visibility",
-                  desc: "Inability to measure and attribute AI impact to business outcomes."
+                  desc: "Companies can't track AI usage or measure value, making it hard to justify investments."
                 },
                 {
-                  icon: TrendingUp,
-                  title: "Scaling Barriers",
-                  desc: "Successful pilots that can't transition to enterprise-wide production."
+                  icon: Zap,
+                  title: "Fragmented Workflows",
+                  desc: "Without a centralized platform, AI initiatives are disorganized with no visibility into costs or risks."
                 }
               ].map((problem, i) => (
                 <motion.div
@@ -305,19 +269,21 @@ export default function Home() {
               className="mt-16 text-center"
             >
               <p className="text-xl text-muted-foreground mb-6">
-                Nexus is the <span className="text-primary font-semibold">command center</span> that helps enterprises cross the divide.
+                Nexus provides a <span className="text-primary font-semibold">centralized platform</span> to solve these foundational barriers.
               </p>
-              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                <Link href="/solutions">
-                  See How We Solve This <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
+              <Button 
+                size="lg" 
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+                onClick={() => setIsRegisterModalOpen(true)}
+              >
+                See How It Works <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Value Proposition - Why Enterprises Choose Nexus */}
+      {/* MVP Features - What You Get */}
       <section className="py-24 relative overflow-hidden bg-card">
         <div className="absolute inset-0 bg-primary/5"></div>
         <div className="container relative z-10">
@@ -330,13 +296,13 @@ export default function Home() {
             >
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-6">
                 <CheckCircle2 className="h-4 w-4" />
-                <span>THE NEXUS ADVANTAGE</span>
+                <span>ALPHA MVP FEATURES</span>
               </div>
               <h2 className="text-4xl md:text-6xl font-mono font-bold mb-6 tracking-tight">
-                WHY ENTERPRISES CHOOSE NEXUS
+                EVERYTHING YOU NEED TO START
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                The first and only unified platform that delivers end-to-end AI governance with measurable business impact.
+                A lean, focused platform designed to solve the core pain points of AI adoption for SMBs and mid-market companies.
               </p>
             </motion.div>
 
@@ -344,30 +310,30 @@ export default function Home() {
               {[
                 {
                   icon: Network,
-                  title: "Complete Visibility",
-                  desc: "Monitor every AI interaction across your organization. Connect to existing systems and LLM logs for full-spectrum oversight.",
-                  metric: "100% Coverage",
+                  title: "Centralized AI Dashboard",
+                  desc: "Single login access to pre-integrated generative AI tools (text generation, image creation, data analysis). Role-based access and quick-start templates for common tasks.",
+                  metric: "One Platform, All Tools",
                   color: "text-primary"
                 },
                 {
-                  icon: Shield,
-                  title: "Enterprise Security",
-                  desc: "SOC 2 Type II certified with SSO, SCIM, and on-premise deployment options. Your data never leaves your control.",
-                  metric: "Zero-Trust Architecture",
+                  icon: BarChart3,
+                  title: "Usage Tracking & Reporting",
+                  desc: "Automated logging of AI interactions with simple visualizations. Track adoption rates by team, time saved, and estimated cost savings. Export reports as PDF or CSV.",
+                  metric: "Real-Time Insights",
                   color: "text-secondary"
                 },
                 {
-                  icon: BarChart3,
-                  title: "Proven ROI",
-                  desc: "Track productivity gains, cost savings, and operational impact with real-time dashboards. Attribute AI value to specific projects and teams.",
-                  metric: "340% Avg. Efficiency Gain",
+                  icon: Shield,
+                  title: "Employee Enablement",
+                  desc: "On-demand training library with short videos and guides on AI best practices, prompt engineering, and ethical usage. Built-in feedback loop for continuous improvement.",
+                  metric: "Build Team Skills",
                   color: "text-green-400"
                 },
                 {
                   icon: TrendingUp,
-                  title: "Scale with Confidence",
-                  desc: "Move from pilot to production seamlessly. Automated quality assurance and human-in-the-loop validation ensure reliability at scale.",
-                  metric: "10x Faster Deployment",
+                  title: "ROI Calculator",
+                  desc: "Built-in, configurable calculator that estimates ROI based on tracked data. Input manual vs AI-assisted time to see productivity gains in dollars. Ties directly to reporting.",
+                  metric: "Measure Value",
                   color: "text-blue-400"
                 }
               ].map((value) => (
@@ -402,21 +368,26 @@ export default function Home() {
               className="mt-16 bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-2xl p-8 md:p-12 text-center"
             >
               <h3 className="text-2xl md:text-3xl font-mono font-bold mb-4">
-                Ready to Transform Your AI Strategy?
+                Ready to Join the Alpha Program?
               </h3>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Join leading enterprises using Nexus to govern, secure, and scale their AI initiatives with measurable ROI.
+                Be among the first 1-3 companies to test Nexus. Get free access, priority support, and shape the product roadmap.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8">
-                  <Link href="/enterprise">
-                    Explore Enterprise Solutions <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
+                <Button 
+                  size="lg" 
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8"
+                  onClick={() => setIsRegisterModalOpen(true)}
+                >
+                  Apply for Alpha Access <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Button asChild size="lg" variant="outline" className="h-12 px-8">
-                  <Link href="/company/contact">
-                    Schedule a Consultation
-                  </Link>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="h-12 px-8"
+                  onClick={() => setIsRegisterModalOpen(true)}
+                >
+                  Book Discovery Call
                 </Button>
               </div>
             </motion.div>
@@ -424,102 +395,121 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Dynamic Scrollytelling Core Modules Section */}
-      <section ref={scrollSectionRef} className="relative transition-colors duration-1000" style={{ backgroundColor: activeColor }}>
-        <div className="container relative">
-          <div className="flex flex-col lg:flex-row">
-            {/* Sticky Visual Side with Holographic Effect */}
-            <div className="hidden lg:flex lg:w-1/2 sticky top-0 h-screen items-center justify-center p-10 perspective-1000">
-              <motion.div 
-                style={{ 
-                  scale: featureImageScale, 
-                  rotateY: featureImageRotate,
-                  opacity: featureImageOpacity 
-                }}
-                className="relative w-full aspect-square max-w-lg rounded-2xl overflow-hidden border border-primary/20 bg-card/50 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.5)]"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 z-0"></div>
-                <img 
-                  src={activeImage} 
-                  alt="Feature Preview" 
-                  className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen"
-                />
-                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `url('${basePath}grid-pattern.svg')` }}></div>
-                
-                {/* Dynamic Overlay Elements */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 border border-white/10 rounded-lg shadow-[0_0_30px_rgba(6,182,212,0.2)]"></div>
-                <div className="absolute top-10 right-10 h-2 w-2 bg-primary rounded-full animate-ping"></div>
-                
-                {/* Glitch Overlay */}
-                <motion.div
-                  animate={{ opacity: [0, 0.1, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                  className="absolute inset-0 bg-white mix-blend-overlay pointer-events-none"
-                ></motion.div>
-              </motion.div>
-            </div>
+      {/* Alpha Program Benefits */}
+      <section className="py-24 relative overflow-hidden bg-gradient-to-b from-primary/5 to-secondary/5">
+        <div className="container relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-6">
+                <CheckCircle2 className="h-4 w-4" />
+                <span>ALPHA PROGRAM</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-mono font-bold mb-6 tracking-tight">
+                WHY JOIN AS AN ALPHA TESTER?
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                Be among the first 1-3 companies to shape the future of AI adoption. Low risk, high impact.
+              </p>
+            </motion.div>
 
-            {/* Scrolling Content Side */}
-            <div className="lg:w-1/2 py-20 lg:py-0">
+            <div className="grid md:grid-cols-2 gap-8 mb-16">
               {[
                 {
-                  icon: Network,
-                  title: "GOVERN",
-                  desc: "Full-spectrum visibility. Connect to core systems and LLM logs to visualize every AI interaction across the network.",
-                  color: "text-primary",
-                  href: "/product/govern"
-                },
-                {
-                  icon: Shield,
-                  title: "GUIDE",
-                  desc: "Sanctioned pathways. A centralized, secure workspace for teams to query company data with built-in approval protocols.",
-                  color: "text-secondary",
-                  href: "/product/guide"
-                },
-                {
-                  icon: CheckCircle2,
-                  title: "VALIDATE",
-                  desc: "Risk mitigation. Automated routing of low-confidence outputs for expert human review and reinforcement learning.",
-                  color: "text-green-400",
-                  href: "/product/validate"
+                  icon: Zap,
+                  title: "Rapid AI Adoption Boost",
+                  desc: "Gain immediate access to a centralized hub that simplifies AI experimentation. Reduce setup time from weeks to days and increase team-wide usage with tools and training in one place.",
+                  color: "text-primary"
                 },
                 {
                   icon: BarChart3,
-                  title: "MEASURE",
-                  desc: "ROI attribution. Precise tracking of AI utility mapped to specific projects, teams, and business outcomes.",
-                  color: "text-blue-400",
-                  href: "/product/measure"
+                  title: "Actionable ROI Insights",
+                  desc: "For the first time, quantify AI's impact with data like 'We saved 20 hours/week on content creation.' Make data-driven decisions to scale initiatives and justify budgets.",
+                  color: "text-secondary"
+                },
+                {
+                  icon: Shield,
+                  title: "Exclusive Early Access",
+                  desc: "As an alpha partner, receive priority support with weekly check-ins and custom tweaks based on your feedback. Shape the product roadmap and position yourself as an AI leader.",
+                  color: "text-green-400"
+                },
+                {
+                  icon: TrendingUp,
+                  title: "Low-Risk Testing",
+                  desc: "Free access during alpha with no long-term commitments. Experiment in a controlled setting while building internal AI capabilities and employee skills.",
+                  color: "text-blue-400"
                 }
-              ].map((feature) => (
-                <div key={feature.title} className="min-h-[80vh] flex flex-col justify-center p-8 border-l border-border/20 ml-4 lg:ml-0">
-                  <motion.div
-                    initial={{ opacity: 0, x: -50, filter: "blur(10px)" }}
-                    whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                    viewport={{ margin: "-20% 0px -20% 0px" }}
-                    transition={{ duration: 0.8 }}
-                  >
-                    <div className={`h-16 w-16 flex items-center justify-center mb-8 rounded-2xl bg-accent/10 ${feature.color} shadow-[0_0_20px_rgba(255,255,255,0.1)]`}>
-                      <feature.icon className="h-8 w-8" />
-                    </div>
-                    <h3 className="text-5xl md:text-7xl font-mono font-bold mb-8 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">
-                      {feature.title}
-                    </h3>
-                    <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-md mb-8">
-                      {feature.desc}
-                    </p>
-                    <Button 
-                      asChild
-                      variant="link" 
-                      className={`p-0 text-lg ${feature.color} hover:opacity-80 group`}
-                    >
-                      <Link href={feature.href}>
-                        Explore {feature.title} <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-                    </Button>
-                  </motion.div>
-                </div>
+              ].map((benefit, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-card border border-border rounded-xl p-8 hover:border-primary/30 transition-all hover:shadow-[0_0_30px_rgba(6,182,212,0.1)]"
+                >
+                  <div className={`h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-6 border border-accent/20 ${benefit.color}`}>
+                    <benefit.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="font-mono font-bold text-xl mb-3">{benefit.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{benefit.desc}</p>
+                </motion.div>
               ))}
             </div>
+
+            {/* Alpha Success Metrics */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-card border border-primary/20 rounded-2xl p-8 md:p-12"
+            >
+              <h3 className="text-2xl md:text-3xl font-mono font-bold mb-8 text-center">
+                WHAT SUCCESS LOOKS LIKE
+              </h3>
+              <div className="grid md:grid-cols-3 gap-8">
+                {[
+                  {
+                    metric: "50%+",
+                    label: "Active User Adoption",
+                    desc: "Weekly engagement target"
+                  },
+                  {
+                    metric: "15%",
+                    label: "Productivity Gain",
+                    desc: "Average time saved"
+                  },
+                  {
+                    metric: "6-8 Weeks",
+                    label: "Alpha Duration",
+                    desc: "Fast, focused testing"
+                  }
+                ].map((stat, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="text-center"
+                  >
+                    <div className="text-5xl md:text-6xl font-mono font-bold text-primary mb-2">
+                      {stat.metric}
+                    </div>
+                    <div className="text-lg font-mono font-semibold mb-1">
+                      {stat.label}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {stat.desc}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -534,7 +524,7 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-4xl md:text-6xl font-mono font-bold mb-8"
           >
-            READY TO SCALE YOUR AI INITIATIVES?
+            READY TO ACCELERATE YOUR AI JOURNEY?
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -543,7 +533,7 @@ export default function Home() {
             transition={{ delay: 0.2 }}
             className="text-xl text-muted-foreground max-w-3xl mx-auto mb-4"
           >
-            Join enterprise leaders using Nexus to achieve <span className="text-primary font-semibold">340% efficiency gains</span> and <span className="text-primary font-semibold">10x faster AI deployment</span>.
+            Join our alpha program and be among the first companies to move from <span className="text-primary font-semibold">AI experimentation to structured production use</span>.
           </motion.p>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -552,7 +542,7 @@ export default function Home() {
             transition={{ delay: 0.3 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12"
           >
-            Register your interest to be notified when Nexus launches and get early access.
+            Limited to 1-3 companies. Free access, priority support, and the opportunity to shape the product roadmap.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -566,17 +556,15 @@ export default function Home() {
               className="h-16 px-12 text-xl bg-primary text-primary-foreground hover:bg-primary/90 rounded-full shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transition-all duration-300"
               onClick={() => setIsRegisterModalOpen(true)}
             >
-              Register Interest <ArrowRight className="ml-2 h-6 w-6" />
+              Apply for Alpha Access <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
             <Button 
-              asChild
               size="lg" 
               variant="outline"
               className="h-16 px-12 text-xl rounded-full border-primary/20 hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
+              onClick={() => setIsRegisterModalOpen(true)}
             >
-              <Link href="/pricing">
-                View Pricing
-              </Link>
+              Book Discovery Call
             </Button>
           </motion.div>
         </div>
