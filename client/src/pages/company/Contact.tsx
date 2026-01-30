@@ -1,86 +1,12 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { toast } from "sonner";
-
-interface ContactFormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  company: string;
-  message: string;
-}
-
-const initialFormData: ContactFormData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  company: "",
-  message: "",
-};
+import SubscriberModal from "@/components/SubscriberModal";
 
 export default function Contact() {
-  const [formData, setFormData] = useState<ContactFormData>(initialFormData);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        toast.success("Message sent!", {
-          description: "We'll get back to you as soon as possible.",
-        });
-        setFormData(initialFormData);
-        return;
-      }
-
-      // Check if server is unavailable (static site deployment)
-      const isServerUnavailable =
-        response.status === 405 ||
-        response.status === 404 ||
-        response.status >= 500;
-
-      if (isServerUnavailable) {
-        throw new Error(
-          "Contact form is temporarily unavailable. Please email us directly at contact@get-nexus.app"
-        );
-      }
-
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || "Failed to send message");
-    } catch (error) {
-      let displayError: unknown = error;
-      if (error instanceof TypeError) {
-        displayError = new Error(
-          "Unable to send message. Please email us directly at contact@get-nexus.app"
-        );
-      }
-
-      console.error("Contact form error:", displayError);
-      toast.error("Something went wrong", {
-        description:
-          displayError instanceof Error
-            ? displayError.message
-            : "Please try again later.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
     <Layout>
@@ -162,93 +88,36 @@ export default function Contact() {
               <h3 className="text-2xl font-mono font-bold mb-6">
                 Send a Message
               </h3>
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label htmlFor="firstName" className="text-sm font-medium">
-                      First Name *
-                    </label>
-                    <Input
-                      id="firstName"
-                      placeholder="Jane"
-                      value={formData.firstName}
-                      onChange={(e) =>
-                        setFormData({ ...formData, firstName: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="lastName" className="text-sm font-medium">
-                      Last Name *
-                    </label>
-                    <Input
-                      id="lastName"
-                      placeholder="Doe"
-                      value={formData.lastName}
-                      onChange={(e) =>
-                        setFormData({ ...formData, lastName: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
-                    Work Email *
-                  </label>
-                  <Input
-                    id="email"
-                    placeholder="jane@company.com"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="company" className="text-sm font-medium">
-                    Company *
-                  </label>
-                  <Input
-                    id="company"
-                    placeholder="Acme Corp"
-                    value={formData.company}
-                    onChange={(e) =>
-                      setFormData({ ...formData, company: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium">
-                    Message *
-                  </label>
-                  <Textarea
-                    id="message"
-                    placeholder="Tell us about your AI governance needs..."
-                    className="min-h-[120px]"
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
+              <p className="text-muted-foreground mb-6">
+                Have questions about Nexus? Want to learn more about how we can
+                help your team adopt AI? Fill out the form and we'll get back to
+                you promptly.
+              </p>
+              <Button
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                onClick={() => setIsContactModalOpen(true)}
+              >
+                Contact Us
+              </Button>
             </motion.div>
           </div>
         </div>
       </div>
+
+      {/* Contact Modal - Uses the reusable SubscriberModal component */}
+      <SubscriberModal
+        open={isContactModalOpen}
+        onOpenChange={setIsContactModalOpen}
+        title="Contact Us"
+        description="Have questions about Nexus? Fill out the form below and we'll get back to you as soon as possible."
+        submitButtonText="Send Message"
+        successTitle="Thank you for reaching out!"
+        successDescription="We'll get back to you as soon as possible."
+        showMessage={true}
+        messageLabel="How can we help you? *"
+        messagePlaceholder="Tell us about your AI governance needs..."
+        messageRequired={true}
+      />
     </Layout>
   );
 }
