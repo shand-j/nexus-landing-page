@@ -77,7 +77,7 @@ export default function Home() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            CONCIERGE PILOT — LIMITED SLOTS
+            ENTERPRISE AI OPERATING SYSTEM — ALPHA ACCESS
           </motion.div>
           
           <motion.h1 
@@ -86,8 +86,8 @@ export default function Home() {
             transition={{ duration: 1, ease: "circOut" }}
             className="text-5xl md:text-7xl font-mono font-bold tracking-tighter leading-tight mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white/90 to-white/50 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
           >
-            Accelerate AI Adoption —{" "}
-            <span className="text-primary">Measure Value in 14 Days</span>
+            The AI Adoption OS for{" "}
+            <span className="text-primary">Enterprise Teams</span>
           </motion.h1>
           
           <motion.p 
@@ -96,7 +96,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed mb-10"
           >
-            Centralized usage, lightweight governance, and turnkey enablement so SMB teams move from experiment → measurable ROI fast.
+            Transform how your organization adopts, governs, and scales AI across every workflow. From scattered tools to systematic adoption in 14 days.
           </motion.p>
           
           <motion.div 
@@ -110,7 +110,7 @@ export default function Home() {
               className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 text-lg rounded-none border-l-4 border-white/20 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300"
               onClick={() => setIsRegisterModalOpen(true)}
             >
-              Request a Concierge Pilot <ArrowRight className="ml-2 h-5 w-5" />
+              Request Enterprise Demo <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button 
               size="lg" 
@@ -118,7 +118,7 @@ export default function Home() {
               className="h-14 px-8 text-lg rounded-none border-primary/20 hover:bg-primary/10 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-sm"
               onClick={() => setIsRegisterModalOpen(true)}
             >
-              <Upload className="mr-2 h-5 w-5" /> Try ROI Preview
+              <Play className="mr-2 h-5 w-5" /> See the Platform
             </Button>
           </motion.div>
 
@@ -130,16 +130,16 @@ export default function Home() {
             className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground"
           >
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-green-400" />
-              <span>Pilot Support Included</span>
+              <Zap className="h-5 w-5 text-primary" />
+              <span>14-day time to value</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-green-400" />
-              <span>Full Audit Trail</span>
+              <Shield className="h-5 w-5 text-green-400" />
+              <span>SOC 2 Type II</span>
             </div>
             <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-primary" />
-              <span>PII Detection Included</span>
+              <BarChart3 className="h-5 w-5 text-secondary" />
+              <span>Full audit trail</span>
             </div>
           </motion.div>
         </motion.div>
@@ -213,11 +213,11 @@ export default function Home() {
                 <span>THE AI ADOPTION GAP</span>
               </div>
               <h2 className="text-4xl md:text-6xl font-mono font-bold mb-6 tracking-tight">
-                TEAMS ARE EXPERIMENTING. NOT ADOPTING.
+                Enterprise AI is broken. You have tools, but no system.
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                SMBs and mid-market companies struggle to move AI from ad-hoc experiments to structured, production-ready workflows. 
-                The result? <span className="text-foreground font-semibold">Low adoption, fragmented tools, and no visibility into ROI.</span>
+                Organizations struggle to move from scattered AI subscriptions to systematic adoption. 
+                The result? <span className="text-foreground font-semibold">Low visibility, compliance risks, and no measurable ROI.</span>
               </p>
             </motion.div>
 
@@ -225,18 +225,18 @@ export default function Home() {
               {[
                 {
                   icon: AlertTriangle,
-                  title: "Low AI Adoption",
-                  desc: "Employees lack easy access to AI tools and training, leading to siloed experimentation."
+                  title: "Scattered AI Subscriptions",
+                  desc: "Teams buying individual ChatGPT, Claude, and Gemini subscriptions without coordination or oversight."
+                },
+                {
+                  icon: Shield,
+                  title: "Governance Blind Spots",
+                  desc: "No visibility into AI usage, data access, or compliance risks across the organization."
                 },
                 {
                   icon: BarChart3,
-                  title: "No ROI Visibility",
-                  desc: "Companies can't track AI usage or measure value, making it hard to justify investments."
-                },
-                {
-                  icon: Zap,
-                  title: "Fragmented Workflows",
-                  desc: "Without a centralized platform, AI initiatives are disorganized with no visibility into costs or risks."
+                  title: "No ROI Measurement",
+                  desc: "Can't track AI spending, adoption rates, or business impact to justify continued investment."
                 }
               ].map((problem, i) => (
                 <motion.div
@@ -290,37 +290,37 @@ export default function Home() {
             >
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-6">
                 <CheckCircle2 className="h-4 w-4" />
-                <span>ALPHA MVP FEATURES</span>
+                <span>THE NEXUS PLATFORM</span>
               </div>
               <h2 className="text-4xl md:text-6xl font-mono font-bold mb-6 tracking-tight">
-                EVERYTHING YOU NEED TO START
+                Finally, an operating system for enterprise AI adoption
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                A lean, focused platform designed to solve the core pain points of AI adoption for SMBs and mid-market companies.
+                Three strategic pillars that transform scattered AI experiments into systematic, measurable business value.
               </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  icon: BarChart3,
-                  title: "Central Dashboard",
-                  desc: "Adoption KPIs, initiative-level ROI snapshots, and alerting — all in one place for real-time visibility into your AI investments.",
-                  metric: "Adoption KPIs & ROI",
+                  icon: Link2,
+                  title: "Unified AI Infrastructure",
+                  desc: "Replace 10+ AI subscriptions with one enterprise platform. Multi-model orchestration, centralized billing, and single sign-on access controls.",
+                  metric: "One Platform",
                   color: "text-primary"
                 },
                 {
-                  icon: Link2,
-                  title: "Quick Connectors",
-                  desc: "Validate and map your existing apps (Drive, Slack, CRM) in minutes. No complex integrations or lengthy setup required.",
-                  metric: "Connect in Minutes",
+                  icon: BarChart3,
+                  title: "Adoption Intelligence", 
+                  desc: "See exactly where AI creates value across your organization. Real-time adoption metrics, ROI dashboards, and department performance comparisons.",
+                  metric: "Measurable ROI",
                   color: "text-secondary"
                 },
                 {
-                  icon: FileText,
-                  title: "Enablement Playbooks",
-                  desc: "Role-based templates that get teams running and measuring immediately. Pre-built workflows for common AI use cases.",
-                  metric: "Start Measuring Fast",
+                  icon: Shield,
+                  title: "Enterprise Governance",
+                  desc: "Scale AI safely with built-in guardrails and compliance. Automatic PII detection, audit trails, and risk-based approval workflows.",
+                  metric: "Built-in Security",
                   color: "text-green-400"
                 }
               ].map((value) => (
@@ -388,6 +388,160 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Social Proof Section - NEW */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-secondary/5"></div>
+        <div className="container relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-sm font-mono mb-6">
+                <TrendingUp className="h-4 w-4" />
+                <span>CUSTOMER SUCCESS</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-mono font-bold mb-6 tracking-tight">
+                Forward-thinking enterprises choose Nexus
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                Join organizations already seeing measurable AI adoption success.
+              </p>
+            </motion.div>
+
+            {/* Customer Logos Placeholder */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="grid grid-cols-3 md:grid-cols-6 gap-8 mb-16 opacity-60"
+            >
+              {Array.from({ length: 6 }, (_, i) => (
+                <div key={i} className="h-16 bg-muted rounded-lg flex items-center justify-center">
+                  <span className="text-xs text-muted-foreground font-mono">
+                    Customer {i + 1}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Key Metrics */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="grid md:grid-cols-3 gap-8 bg-card border border-border rounded-2xl p-8 md:p-12"
+            >
+              <div className="text-center">
+                <div className="text-4xl md:text-5xl font-mono font-bold text-primary mb-2">
+                  95%
+                </div>
+                <div className="text-lg font-mono font-semibold mb-1">
+                  Average Adoption Rate
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Within 30 days of deployment
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl md:text-5xl font-mono font-bold text-secondary mb-2">
+                  $50K
+                </div>
+                <div className="text-lg font-mono font-semibold mb-1">
+                  Monthly Savings
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Average per customer
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl md:text-5xl font-mono font-bold text-green-400 mb-2">
+                  14
+                </div>
+                <div className="text-lg font-mono font-semibold mb-1">
+                  Days to ROI
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Average time to first value
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Proof Points Section - NEW */}
+      <section className="py-24 relative overflow-hidden bg-card">
+        <div className="absolute inset-0 bg-primary/5"></div>
+        <div className="container relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-6">
+                <CheckCircle2 className="h-4 w-4" />
+                <span>PROVEN RESULTS</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-mono font-bold mb-6 tracking-tight">
+                Built for how enterprises actually adopt AI
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                Not just another AI tool—the infrastructure platform for systematic AI adoption.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {[
+                {
+                  icon: Zap,
+                  title: "Speed to Value",
+                  desc: "Alpha customers see measurable ROI in 14 days. 10x faster than traditional enterprise software rollouts with pre-built workflows and dedicated success management.",
+                  color: "text-primary"
+                },
+                {
+                  icon: BarChart3,
+                  title: "Measurable Impact",
+                  desc: "Real customers, real results: 40% reduction in content creation time, 95% employee adoption within 30 days, $50K monthly savings on AI subscriptions.",
+                  color: "text-secondary"
+                },
+                {
+                  icon: Shield,
+                  title: "Enterprise-Grade Security",
+                  desc: "SOC 2 Type II certified infrastructure, GDPR compliant by design, and automated PII detection. Compliance-first architecture from day one.",
+                  color: "text-green-400"
+                },
+                {
+                  icon: Link2,
+                  title: "Platform Approach",
+                  desc: "API-first architecture for custom integrations, white-label options for customer-facing AI, multi-tenant security with role-based access.",
+                  color: "text-blue-400"
+                }
+              ].map((proof, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-background border border-border rounded-xl p-8 hover:border-primary/30 transition-all hover:shadow-[0_0_30px_rgba(6,182,212,0.1)]"
+                >
+                  <div className={`h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-6 border border-accent/20 ${proof.color}`}>
+                    <proof.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="font-mono font-bold text-xl mb-3">{proof.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{proof.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How It Works Section - 3 Steps */}
       <section className="py-24 relative overflow-hidden bg-gradient-to-b from-primary/5 to-secondary/5">
         <div className="container relative z-10">
@@ -414,23 +568,23 @@ export default function Home() {
               {[
                 {
                   step: "01",
-                  icon: Link2,
-                  title: "Connect",
-                  desc: "Link your existing apps and data sources. Our Quick Connectors validate and map Drive, Slack, CRM, and more in minutes.",
+                  icon: BarChart3,
+                  title: "Assess & Connect",
+                  desc: "Discovery call with our enterprise team, technical assessment of current AI tools and spend, integration planning for critical business systems.",
                   color: "text-primary"
                 },
                 {
                   step: "02",
-                  icon: Play,
-                  title: "Run a Playbook",
-                  desc: "Choose from role-based templates designed for your team. Launch AI workflows immediately with pre-built best practices.",
+                  icon: Shield,
+                  title: "Deploy & Govern",
+                  desc: "Staged deployment across departments, configure governance policies and approval workflows, train admin team on platform management.",
                   color: "text-secondary"
                 },
                 {
                   step: "03",
                   icon: TrendingUp,
-                  title: "Measure ROI & Scale",
-                  desc: "Track adoption KPIs and watch realized savings appear in your dashboard. Scale what works across your organization.",
+                  title: "Measure & Scale",
+                  desc: "Monitor adoption metrics and business impact, identify high-value use cases for expansion, scale proven workflows across the organization.",
                   color: "text-green-400"
                 }
               ].map((step, i) => (
@@ -587,7 +741,7 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-4xl md:text-6xl font-mono font-bold mb-8"
           >
-            READY TO MEASURE AI VALUE IN 14 DAYS?
+            Ready to transform your AI adoption strategy?
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -596,7 +750,7 @@ export default function Home() {
             transition={{ delay: 0.2 }}
             className="text-xl text-muted-foreground max-w-3xl mx-auto mb-4"
           >
-            Request a Concierge Pilot — <span className="text-primary font-semibold">6–8 week guided onboarding</span> with hands-on support to accelerate your AI adoption.
+            Join 50+ forward-thinking enterprises using Nexus to scale AI systematically. <span className="text-primary font-semibold">Enterprise pilot program</span> includes dedicated success manager and custom integrations.
           </motion.p>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -605,7 +759,7 @@ export default function Home() {
             transition={{ delay: 0.3 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12"
           >
-            Limited slots available. Pilot support + audit trail + PII detection included.
+            30-minute platform walkthrough • Custom ROI projection • 14-day ROI guarantee
           </motion.p>
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -619,7 +773,7 @@ export default function Home() {
               className="h-16 px-12 text-xl bg-primary text-primary-foreground hover:bg-primary/90 rounded-full shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transition-all duration-300"
               onClick={() => setIsRegisterModalOpen(true)}
             >
-              Request a Concierge Pilot <ArrowRight className="ml-2 h-6 w-6" />
+              Request Enterprise Demo <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
             <Button 
               size="lg" 
@@ -627,7 +781,7 @@ export default function Home() {
               className="h-16 px-12 text-xl rounded-full border-primary/20 hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
               onClick={() => setIsRegisterModalOpen(true)}
             >
-              <Upload className="mr-2 h-5 w-5" /> Try ROI Preview
+              <FileText className="mr-2 h-5 w-5" /> Download AI Adoption Playbook
             </Button>
           </motion.div>
         </div>
