@@ -1,34 +1,567 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-  <title>Nexus - Enterprise AI Adoption Hyperscaler</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet" />
-
-  <!-- MailerLite Universal -->
-  <script>
-    (function (w, d, e, u, f, l, n) {
-      w[f] = w[f] || function () {
-        (w[f].q = w[f].q || [])
-        .push(arguments);
-      }, l = d.createElement(e), l.async = 1, l.src = u,
-      n = d.getElementsByTagName(e)[0], n.parentNode.insertBefore(l, n);
-    })
-      (window, document, 'script', 'https://assets.mailerlite.com/js/universal.js', 'ml');
-    ml('account', '1898936');
-  </script>
-  <!-- End MailerLite Universal -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Automation — AI Support Agents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --navy: #0B1221;
+            --navy-light: #1E293B;
+            --violet: #8B5CF6;
+            --teal: #14B8A6;
+            --white: #F8FAFC;
+            --gray: #64748B;
+            --red: #EF4444;
+            --green: #22C55E;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--navy);
+            color: var(--white);
+            line-height: 1.6;
+        }
+        
+        /* Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(100, 116, 139, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 116, 139, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--violet) 0%, var(--teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--white);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--violet) 0%, var(--teal) 100%);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.5);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(100, 116, 139, 0.4);
+        }
+        
+        /* Hero */
+        .hero {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--violet) 0%, var(--teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+        
+        /* Stats Bar */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 36px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--violet) 0%, var(--teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+        
+        /* Comparison Section */
+        .comparison {
+            padding: 80px 0;
+        }
+        
+        .comparison h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+        }
+        
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        
+        .compare-card {
+            background: var(--navy-light);
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+        
+        .compare-card.bad {
+            border-left: 4px solid var(--red);
+        }
+        
+        .compare-card.good {
+            border-left: 4px solid var(--green);
+        }
+        
+        .compare-card h3 {
+            font-size: 18px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ticket {
+            background: rgba(11, 18, 33, 0.5);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 12px;
+            margin-bottom: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .ai-response {
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+        
+        .ai-response-label {
+            font-size: 11px;
+            color: var(--teal);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        
+        /* Demo Section */
+        .demo {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(180deg, transparent 0%, rgba(139, 92, 246, 0.05) 50%, transparent 100%);
+        }
+        
+        .demo h2 {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+        
+        .demo p {
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto 40px;
+        }
+        
+        .demo-frame {
+            background: var(--navy-light);
+            border-radius: 12px;
+            padding: 8px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .demo-frame iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 80px 0;
+        }
+        
+        .pricing h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .pricing-card {
+            background: var(--navy-light);
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            position: relative;
+        }
+        
+        .pricing-card.popular {
+            border-color: var(--violet);
+            transform: scale(1.02);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--violet);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .pricing-card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 40px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .price span {
+            font-size: 14px;
+            color: var(--gray);
+            font-weight: 400;
+        }
+        
+        .pricing-card p {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        
+        .features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        
+        .features li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.1);
+            font-size: 14px;
+        }
+        
+        .features li:before {
+            content: "→";
+            color: var(--teal);
+            margin-right: 8px;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid rgba(100, 116, 139, 0.2);
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        footer a {
+            color: var(--gray);
+            text-decoration: none;
+            margin: 0 16px;
+        }
+        
+        footer a:hover {
+            color: var(--white);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .compare-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
 </head>
-
 <body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">NEXUS</div>
+                <ul class="nav-links">
+                    <li><a href="#demo">Demo</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="mailto:hello@get-nexus.app">Contact</a></li>
+                </ul>
+                <a href="#demo" class="btn btn-primary">See Demo</a>
+            </nav>
+        </div>
+    </header>
 
+    <section class="hero">
+        <div class="container">
+            <h1>AI Agents That Handle <span>Support End-to-End</span></h1>
+            <p>Automate 70% of your support tickets. Reduce response times from hours to seconds. Scale without proportional headcount.</p>
+            <div class="hero-cta">
+                <a href="http://47.237.76.38:8080" class="btn btn-primary">Try Live Demo →</a>
+                <a href="#pricing" class="btn btn-secondary">View Pricing</a>
+            </div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">70%</div>
+                    <div class="stat-label">Tickets Automated</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">30s</div>
+                    <div class="stat-label">Avg Response</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">$200K</div>
+                    <div class="stat-label">Monthly Savings</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Availability</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="comparison">
+        <div class="container">
+            <h2>The Nexus Difference</h2>
+            <div class="compare-grid">
+                <div class="compare-card bad">
+                    <h3>❌ Without Nexus</h3>
+                    <div class="ticket">
+                        <div class="ticket-header">#48291 • 6 hours ago</div>
+                        <div>Can't access my account. Need this fixed ASAP for client meeting.</div>
+                    </div>
+                    <div class="ticket">
+                        <div class="ticket-header">#48292 • 5 hours ago</div>
+                        <div>Password reset not working. Tried 3 times.</div>
+                    </div>
+                    <div class="ticket">
+                        <div class="ticket-header">#48293 • 4 hours ago</div>
+                        <div>How do I upgrade my plan? Can't find the button.</div>
+                    </div>
+                    <p style="color: var(--gray); margin-top: 16px; font-size: 14px;">
+                        📊 547 tickets in backlog • 4.2 hour avg response
+                    </p>
+                </div>
+                
+                <div class="compare-card good">
+                    <h3>✅ With Nexus</h3>
+                    <div class="ticket">
+                        <div class="ticket-header">#48291 • ✓ Resolved in 28s</div>
+                        <div>Can't access my account. Need this fixed ASAP for client meeting.</div>
+                        <div class="ai-response">
+                            <div class="ai-response-label">🤖 AI Agent Response</div>
+                            <div>I've unlocked your account and sent a secure login link to your email. You should be able to access immediately.</div>
+                        </div>
+                    </div>
+                    <div class="ticket">
+                        <div class="ticket-header">#48292 • ✓ Resolved in 15s</div>
+                        <div>Password reset not working. Tried 3 times.</div>
+                        <div class="ai-response">
+                            <div class="ai-response-label">🤖 AI Agent Response</div>
+                            <div>Password reset sent! Check your spam folder if you don't see it in 2 minutes.</div>
+                        </div>
+                    </div>
+                    <p style="color: var(--green); margin-top: 16px; font-size: 14px;">
+                        📊 23 tickets in backlog • 30 sec avg response • 68% automated
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo" id="demo">
+        <div class="container">
+            <h2>See It In Action</h2>
+            <p>Submit a test ticket below. Watch our AI agent analyze it, draft a response, and resolve it automatically.</p>
+            <div class="demo-frame">
+                <iframe src="http://47.237.76.38:8080" title="Nexus Demo"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2>Simple, Transparent Pricing</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">$500<span>/mo</span></div>
+                    <p>For small teams getting started</p>
+                    <ul class="features">
+                        <li>1 AI workflow</li>
+                        <li>2,000 conversations/mo</li>
+                        <li>Email + Chat support</li>
+                        <li>Basic analytics</li>
+                        <li>48-hour setup</li>
+                    </ul>
+                    <a href="mailto:hello@get-nexus.app?subject=Starter Plan" class="btn btn-secondary" style="width: 100%;">Get Started</a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3>Growth</h3>
+                    <div class="price">$2,000<span>/mo</span></div>
+                    <p>For scaling teams ready to transform</p>
+                    <ul class="features">
+                        <li>3 AI workflows</li>
+                        <li>15,000 conversations/mo</li>
+                        <li>Multi-channel support</li>
+                        <li>Advanced analytics</li>
+                        <li>CRM integrations</li>
+                        <li>24-hour setup</li>
+                    </ul>
+                    <a href="mailto:hello@get-nexus.app?subject=Growth Plan" class="btn btn-primary" style="width: 100%;">Get Started</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">$5,000<span>/mo</span></div>
+                    <p>For organizations needing full customization</p>
+                    <ul class="features">
+                        <li>Unlimited AI workflows</li>
+                        <li>Unlimited conversations</li>
+                        <li>All channels + integrations</li>
+                        <li>Real-time dashboard</li>
+                        <li>SLA guarantee</li>
+                        <li>Custom AI training</li>
+                    </ul>
+                    <a href="mailto:hello@get-nexus.app?subject=Enterprise Plan" class="btn btn-secondary" style="width: 100%;">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="mailto:hello@get-nexus.app">hello@get-nexus.app</a>
+                <a href="https://get-nexus.app">get-nexus.app</a>
+            </p>
+            <p style="margin-top: 16px;">© 2026 Nexus Automation. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
 </html>
