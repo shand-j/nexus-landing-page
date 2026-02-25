@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Automation — AI Support Agent Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            color: #64748b;
+            font-size: 18px;
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        @media (max-width: 768px) {
+            .demo-grid { grid-template-columns: 1fr; }
+        }
+        .panel {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #334155;
+        }
+        .panel h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .panel.broken h2 { color: #ef4444; }
+        .panel.fixed h2 { color: #22c55e; }
+        .ticket {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #334155;
+        }
+        .ticket.urgent { border-left-color: #ef4444; }
+        .ticket.resolved { border-left-color: #22c55e; opacity: 0.7; }
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .ticket-id { color: #64748b; }
+        .ticket-time { color: #64748b; }
+        .ticket-body {
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+        .response {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #22c55e;
+        }
+        .response-label {
+            font-size: 12px;
+            color: #22c55e;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stats-bar {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        @media (max-width: 768px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 16px;
+            border: 1px solid #334155;
+        }
+        .cta-section h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        .cta-section p {
+            color: #64748b;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.5);
+        }
+        .typing {
+            display: inline-flex;
+            gap: 4px;
+        }
+        .typing span {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">⚡ Nexus Automation</div>
+            <div class="tagline">AI agents that handle support tickets end-to-end</div>
+        </header>
+
+        <div class="stats-bar">
+            <div>
+                <div class="stat-value">70%</div>
+                <div class="stat-label">Tickets Automated</div>
+            </div>
+            <div>
+                <div class="stat-value">30s</div>
+                <div class="stat-label">Avg Response</div>
+            </div>
+            <div>
+                <div class="stat-value">$200K</div>
+                <div class="stat-label">Monthly Savings</div>
+            </div>
+            <div>
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Availability</div>
+            </div>
+        </div>
+
+        <div class="demo-grid">
+            <div class="panel broken">
+                <h2>❌ Before: Human-Only Support</h2>
+                
+                <div class="ticket urgent">
+                    <div class="ticket-header">
+                        <span class="ticket-id">#48291</span>
+                        <span class="ticket-time">⏰ 6 hours ago</span>
+                    </div>
+                    <div class="ticket-body">
+                        Urgent: Can't access my account. Need this fixed ASAP for client meeting.
+                    </div>
+                </div>
+
+                <div class="ticket urgent">
+                    <div class="ticket-header">
+                        <span class="ticket-id">#48292</span>
+                        <span class="ticket-time">⏰ 5 hours ago</span>
+                    </div>
+                    <div class="ticket-body">
+                        Password reset not working. Tried 3 times.
+                    </div>
+                </div>
+
+                <div class="ticket">
+                    <div class="ticket-header">
+                        <span class="ticket-id">#48293</span>
+                        <span class="ticket-time">⏰ 4 hours ago</span>
+                    </div>
+                    <div class="ticket-body">
+                        How do I upgrade my plan? Can't find the button.
+                    </div>
+                </div>
+
+                <div style="text-align: center; color: #64748b; margin-top: 20px;">
+                    📊 547 tickets in backlog | 4.2 hour avg response
+                </div>
+            </div>
+
+            <div class="panel fixed">
+                <h2>✅ After: AI-Powered Support</h2>
+
+                <div class="ticket resolved">
+                    <div class="ticket-header">
+                        <span class="ticket-id">#48291</span>
+                        <span class="ticket-time">✓ Resolved in 28s</span>
+                    </div>
+                    <div class="ticket-body">
+                        Urgent: Can't access my account. Need this fixed ASAP for client meeting.
+                    </div>
+                    <div class="response">
+                        <div class="response-label">
+                            🤖 AI Agent Response
+                            <span class="typing"><span></span><span></span><span></span></span>
+                        </div>
+                        I've unlocked your account and sent a secure login link to your email. You should be able to access immediately. Let me know if you need anything else!
+                    </div>
+                </div>
+
+                <div class="ticket resolved">
+                    <div class="ticket-header">
+                        <span class="ticket-id">#48292</span>
+                        <span class="ticket-time">✓ Resolved in 15s</span>
+                    </div>
+                    <div class="ticket-body">
+                        Password reset not working. Tried 3 times.
+                    </div>
+                    <div class="response">
+                        <div class="response-label">🤖 AI Agent Response</div>
+                        Password reset sent! Check your spam folder if you don't see it in 2 minutes. The link expires in 24 hours.
+                    </div>
+                </div>
+
+                <div class="ticket resolved">
+                    <div class="ticket-header">
+                        <span class="ticket-id">#48293</span>
+                        <span class="ticket-time">✓ Resolved in 12s</span>
+                    </div>
+                    <div class="ticket-body">
+                        How do I upgrade my plan? Can't find the button.
+                    </div>
+                    <div class="response">
+                        <div class="response-label">🤖 AI Agent Response</div>
+                        Here's the direct link to upgrade: [Upgrade Now]. Pro tip: Annual billing saves 20%. Questions? I'm here!
+                    </div>
+                </div>
+
+                <div style="text-align: center; color: #22c55e; margin-top: 20px;">
+                    📊 23 tickets in backlog | 30 sec avg response | 68% automated
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>See It In Action</h2>
+            <p>Submit a test ticket below. Our AI agent will analyze it, draft a response, and show you exactly how Nexus Automation handles support end-to-end.</p>
+            
+            <a href="/demo" class="btn">Try Live Demo →</a>
+            <p style="margin-top: 20px; font-size: 14px;">
+                <a href="/pricing" style="color: #64748b;">View Pricing</a> · 
+                <a href="/case-studies" style="color: #64748b;">Case Studies</a> · 
+                <a href="mailto:hello@get-nexus.app" style="color: #64748b;">Contact Sales</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
