@@ -1,11 +1,13 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import SubscriberModal from "@/components/SubscriberModal";
 
 export default function Contact() {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
   return (
     <Layout>
       <div className="relative pt-32 pb-20 overflow-hidden">
@@ -39,14 +41,17 @@ export default function Contact() {
               className="space-y-8"
             >
               <div className="bg-card border border-border p-8 rounded-xl">
-                <h3 className="text-2xl font-mono font-bold mb-6">Contact Info</h3>
+                <h3 className="text-2xl font-mono font-bold mb-6">
+                  Contact Info
+                </h3>
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <MapPin className="h-6 w-6 text-primary shrink-0 mt-1" />
                     <div>
                       <div className="font-bold mb-1">Headquarters</div>
                       <div className="text-muted-foreground">
-                        100 Cyberpunk Avenue<br />
+                        100 Cyberpunk Avenue
+                        <br />
                         San Francisco, CA 94103
                       </div>
                     </div>
@@ -55,14 +60,18 @@ export default function Contact() {
                     <Mail className="h-6 w-6 text-primary shrink-0 mt-1" />
                     <div>
                       <div className="font-bold mb-1">Email</div>
-                      <div className="text-muted-foreground">hello@nexus.ai</div>
+                      <div className="text-muted-foreground">
+                        contact@get-nexus.app
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
                     <Phone className="h-6 w-6 text-primary shrink-0 mt-1" />
                     <div>
                       <div className="font-bold mb-1">Phone</div>
-                      <div className="text-muted-foreground">+1 (555) 012-3456</div>
+                      <div className="text-muted-foreground">
+                        +1 (555) 012-3456
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -76,34 +85,39 @@ export default function Contact() {
               transition={{ duration: 0.8 }}
               className="bg-card border border-border p-8 rounded-xl"
             >
-              <h3 className="text-2xl font-mono font-bold mb-6">Send a Message</h3>
-              <form className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">First Name</label>
-                    <Input placeholder="Jane" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Last Name</label>
-                    <Input placeholder="Doe" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Work Email</label>
-                  <Input placeholder="jane@company.com" type="email" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Message</label>
-                  <Textarea placeholder="Tell us about your AI governance needs..." className="min-h-[120px]" />
-                </div>
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                  Send Message
-                </Button>
-              </form>
+              <h3 className="text-2xl font-mono font-bold mb-6">
+                Send a Message
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Have questions about Nexus? Want to learn more about how we can
+                help your team adopt AI? Fill out the form and we'll get back to
+                you promptly.
+              </p>
+              <Button
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                onClick={() => setIsContactModalOpen(true)}
+              >
+                Contact Us
+              </Button>
             </motion.div>
           </div>
         </div>
       </div>
+
+      {/* Contact Modal - Uses the reusable SubscriberModal component */}
+      <SubscriberModal
+        open={isContactModalOpen}
+        onOpenChange={setIsContactModalOpen}
+        title="Contact Us"
+        description="Have questions about Nexus? Fill out the form below and we'll get back to you as soon as possible."
+        submitButtonText="Send Message"
+        successTitle="Thank you for reaching out!"
+        successDescription="We'll get back to you as soon as possible."
+        showMessage={true}
+        messageLabel="How can we help you? *"
+        messagePlaceholder="Tell us about your AI governance needs..."
+        messageRequired={true}
+      />
     </Layout>
   );
 }
